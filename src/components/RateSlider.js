@@ -23,12 +23,12 @@ export default class RateSlider extends Component {
 		        { this.props.address }
 		      </Card.Meta>
 					<Card.Description>
-						<input type='range' min={0} max={10} value={rating} onChange={this.handleChange} />
+						<input type='range' min={0} max={10} value={rating} onChange={this.handleChange} disabled={this.props.address == this.props.currentUser}/>
 				<br />
 				Rating: {rating}
 						<Rating rating={this.state.rating} maxRating={10} disabled={true} hidden={true}/>
 						<br/>
-						<Button primary onClick={this.handleSubmit}>Submit Rating</Button>
+						<Button primary onClick={this.handleSubmit} disabled={this.props.address == this.props.currentUser}>Submit Rating</Button>
 		      </Card.Description>
 		    </Card.Content>
 		  </Card>
