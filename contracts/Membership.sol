@@ -35,6 +35,8 @@ contract Membership is Owned {
     addMember(0x8e6a7eEc280a7CB433d9ef66cC60f88F12eDf8a9);
   }
 
+  /*----------- Owner Methods -----------*/
+
   function addMember(address newMember) 
     public 
     fromOwner 
@@ -46,6 +48,8 @@ contract Membership is Owned {
     LogNewMember(msg.sender, newMember, index);
     return true;
   }
+
+  /*----------- Public Methods -----------*/
 
   function getMemberAtIndex(uint index) 
     public 

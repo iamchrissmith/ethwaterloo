@@ -4,15 +4,6 @@ import './Pausable.sol';
 import './Membership.sol'; 
 
 contract Sphere is Membership, Pausable {
-  /**
-    * Rating
-    * * addRatingToMember(address, uint)
-    * * * check if we completed last survey round
-    * * * set new base/total
-    * * * check if we completed this survey, emit LogCompleteRating event
-    * * LogCompleteRating
-    * * getRatingForMember
-    */
     /*----------- Types -----------*/
 
     struct Rating {
@@ -38,15 +29,8 @@ contract Sphere is Membership, Pausable {
         one = _one;
     }
 
-    /**
-     * Rating
-     * * addRatingToMember(address, uint)
-     * * * check if we completed last survey round
-     * * * set new base/total
-     * * * check if we completed this survey, emit LogCompleteRating event
-     * * LogCompleteRating
-     * * getRatingForMember
-     */
+    /*----------- Member Methods -----------*/
+
     function addRatingToMember(address member, uint256 rating) 
       public 
       fromMember 
@@ -54,6 +38,7 @@ contract Sphere is Membership, Pausable {
       returns(bool success) 
     {
       // TODO: restrict 1 rating per period.
+      // TODO: emit rating completed when (ratingsReceived[member] == (memberCount - 1)*2)
 
       ratings[member].count += one;
       ratings[member].total += rating;
@@ -61,6 +46,8 @@ contract Sphere is Membership, Pausable {
 
       return true;
     }
+
+    /*----------- Public Methods -----------*/
 
     function getRatingForMember(address member) 
       public 
