@@ -1,5 +1,12 @@
 /* PAGE */
 
+body {
+	background: #ECE9E6 !important;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6) !important;  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #FFFFFF, #ECE9E6) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	
+}
+
 body,
 .pure-g [class*=pure-u] {
   font-family: 'Open Sans', sans-serif;
@@ -14,6 +21,12 @@ code {
   margin: 20px 0 15px 0;
   padding: 10px;
   background: #eee;
+}
+
+.gradientHeader {
+	background: #0f0c29 !important;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to top, #24243e, #302b63, #0f0c29) !important;  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to top, #24243e, #302b63, #0f0c29) !important; /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .container {
