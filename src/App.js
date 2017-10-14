@@ -63,6 +63,7 @@ class App extends Component {
     console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
     console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
     console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    console.log(keys.pub.n2.toString());
 
   }
 
@@ -84,6 +85,21 @@ class App extends Component {
     })
   }
 
+  async getRating(address) {
+    const contract = require('truffle-contract');
+
+    const sphere = contract(Sphere);
+    sphere.setProvider(this.state.web3.currentProvider);
+
+    const instance = await sphere.deployed();
+
+    const base = await instance.getMemberBase();
+    const total = await instance.getMemberTotal();
+
+    console.log(base);
+    console.log(total);
+    // return this.setState({ len: l, members })
+  }
 
   async getMembers() {
     const contract = require('truffle-contract');
