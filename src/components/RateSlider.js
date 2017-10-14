@@ -14,7 +14,8 @@ export default class RateSlider extends Component {
     const { rating } = this.state
 
     return (
-		<Card centered={true}>
+
+      <Card centered={true} className={this.props.address === this.props.currentUser ? "hideCard" : "showCard"}>
 		    <Card.Content>
 		      <Card.Header>
 		        { this.props.name }

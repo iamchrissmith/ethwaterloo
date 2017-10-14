@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
 import RateSliderGroup from './components/RateSliderGroup';
 import ResultsTable from './components/ResultsTable';
-import { Container, Header, Segment } from 'semantic-ui-react';
+import { Container, Header, Segment, Button} from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
@@ -42,6 +42,9 @@ var options = {
     }
 };
 
+const updateChartButton = (props) => (
+  <button id="update-chart" onClick={props.handleOnClick}>Update</button>
+);
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -63,9 +66,12 @@ class App extends Component {
       contract: {},
       names: ["Vitalk", "Noah", "Max", "Chris"],
       members: [],
-      currentUser: ''
+      currentUser: '',
+      chartData: data
     }
 
+    console.log(this.state.chartData);
+    console.log(this.updated);
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
@@ -73,6 +79,8 @@ class App extends Component {
     // console.log(keys.pub.n2.toString());
 
   }
+
+
 
   // get ratings for each member
   // submitRating async function
@@ -88,7 +96,7 @@ class App extends Component {
       })
 
       const contract = require('truffle-contract');
-      
+
       const sphere = contract(Sphere);
       sphere.setProvider(this.state.web3.currentProvider);
 
@@ -105,7 +113,7 @@ class App extends Component {
       console.log('Error finding web3.')
     })
   }
-  
+
   componentDidMount() {
   }
 
@@ -118,7 +126,7 @@ class App extends Component {
       console.log(address);
       const base = await this.state.contract.getMemberBase.call(address);
       const total = await this.state.contract.getMemberTotal.call(address);
-  
+
       console.log(base);
       console.log(total);
       // return this.setState({ len: l, members })
@@ -139,6 +147,10 @@ class App extends Component {
   submitRating = async (address, score) => {
     console.log(address, score)
     return this.state.contract.addRatingToMember(address,score, {from:this.state.currentUser, gas: 3000000 })
+  }
+
+  renderChart() {
+    return Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )});
   }
 
   render() {
@@ -165,14 +177,19 @@ class App extends Component {
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
 			<div>
-				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
+				<Radar width={500} height={500} options={options} data={this.renderChart()} />
 			</div>
-      <RateSliderGroup 
+      <Header
+        as="h2"
+        content={`Welcome, ${this.state.currentUser}`}
+      />
+      <RateSliderGroup
         members={this.state.members}
         names={this.state.names}
         currentUser={this.state.currentUser}
         submitRating={this.submitRating}
       />
+        <Button color="orange" handleOnClick={this.updateChart}>View Ratings</Button>
 		</Container>
 
 		<ResultsTable />
