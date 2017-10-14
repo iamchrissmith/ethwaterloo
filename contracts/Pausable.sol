@@ -3,20 +3,27 @@ pragma solidity ^0.4.2;
 import './Owned.sol';
 
 contract Pausable is Owned {
-  /** 
-   * Pausible
-   * * LogPausedSet
-   * * setPaused
-   * * isPaused
-   */
-  // bool public paused;
+  bool public paused;
 
-  // modifier whenPaused {}
-  // modifier whenNotPaused {}
+  modifier whenPaused {
+    require(paused);
+    _;
+  }
+  modifier whenNotPaused {
+    require(!paused);
+    _;
+  }
 
-  // function Pausible(bool isPaused){
-  //   paused = isPaused;
-  // }
+  function Pausible(){}
 
-  // function setPaused(bool newState) public fromOwner returns(bool success);
+  function setPaused(bool newState) 
+    public 
+    fromOwner 
+    returns(bool success)
+  {
+    require(paused != newState);
+
+    paused = newState;
+    return true;
+  }
 }
