@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
-import getWeb3 from './utils/getWeb3'
+import React, { Component } from 'react';
+import { Rating } from 'semantic-ui-react';
+import Spheres from '../build/contracts/Spheres.json';
+import getWeb3 from './utils/getWeb3';
 import {Radar} from 'react-chartjs-2';
 
 
@@ -75,23 +76,23 @@ class App extends Component {
      * state management library, but for convenience I've placed them here.
      */
 
-    const contract = require('truffle-contract')
-    const simpleStorage = contract(SimpleStorageContract)
-    simpleStorage.setProvider(this.state.web3.currentProvider)
+    const contract = require('truffle-contract');
+    const spheres = contract(Spheres);
+    spheres.setProvider(this.state.web3.currentProvider);
 
     // Declaring this for later so we can chain functions on SimpleStorage.
-    var simpleStorageInstance
+    let spheresInstance;
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      simpleStorage.deployed().then((instance) => {
-        simpleStorageInstance = instance
+      spheres.deployed().then((instance) => {
+        spheresInstance = instance
 
         // Stores a given value, 5 by default.
-        return simpleStorageInstance.set(5, {from: accounts[0]})
+        return spheresInstance.set(5, {from: accounts[0]})
       }).then((result) => {
         // Get the value from the contract to prove it worked.
-        return simpleStorageInstance.get.call(accounts[0])
+        return spheresInstance.get.call(accounts[0])
       }).then((result) => {
         // Update state with the result.
         return this.setState({ storageValue: result.c[0] })

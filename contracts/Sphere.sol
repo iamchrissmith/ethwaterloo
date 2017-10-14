@@ -7,7 +7,7 @@ contract Sphere {
    * * getOwner
    * * LogOwnerSet
    */
-  address internal owner;
+  /*address internal owner;
 
   modifier fromOwner {}
 
@@ -17,15 +17,15 @@ contract Sphere {
 
   function setOwner(address newOwner) public fromOwner returns(bool success);
 
-  function getOwner() constant public returns(address owner);
+  function getOwner() constant public returns(address owner);*/
 
-  /** 
+  /**
    * Pausible
    * * LogPausedSet
    * * setPaused
    * * isPaused
    */
-  bool public paused;
+  /*bool public paused;
 
   modifier whenPaused {}
   modifier whenNotPaused {}
@@ -34,11 +34,11 @@ contract Sphere {
     paused = isPaused;
   }
 
-  function setPaused(bool newState) public fromOwner returns(bool success);
+  function setPaused(bool newState) public fromOwner returns(bool success);*/
   /**
-   * Members 
+   * Members
    * * LogNewMember
-   * * addMember 
+   * * addMember
    * * getMemberAtIndex
    * * isMember
    */
