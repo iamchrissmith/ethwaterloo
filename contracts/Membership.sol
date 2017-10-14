@@ -49,7 +49,15 @@ contract Membership is Owned {
     return true;
   }
 
-  /*----------- Public Methods -----------*/
+  /*----------- Constants -----------*/
+
+  function getMemberCount() 
+    public 
+    constant 
+    returns(uint256) 
+  {
+    return members.length;
+  }
 
   function getMemberAtIndex(uint index) 
     public 

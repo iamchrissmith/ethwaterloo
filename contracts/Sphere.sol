@@ -47,6 +47,7 @@ contract Sphere is Membership, Pausable {
       return true;
     }
 
+<<<<<<< HEAD
     /*----------- Constants -----------*/
 
     function getMemberCount() public constant returns(uint256) {
@@ -55,6 +56,23 @@ contract Sphere is Membership, Pausable {
 
     function getMembers() public constant returns(address[]) {
         return members;
+=======
+    /*----------- Public Methods -----------*/
+
+    function getRatingForMember(address member) 
+      public 
+      constant
+      isAMember(member)
+      returns(
+        uint256 count,
+        uint256 total
+      )
+    {
+      return (
+        ratings[member].count,
+        ratings[member].total
+      );
+>>>>>>> 6df9436b07b9c3ba2e7c40a95c4b4032788add82
     }
 
     /*function getRatingForMember(address member) public returns(uint rating);*/

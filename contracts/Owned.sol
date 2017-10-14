@@ -34,7 +34,7 @@ contract Owned {
     return true;
   }
 
-  /*----------- Public Methods -----------*/
+  /*----------- Constants -----------*/
 
   function getOwner() 
     constant 
