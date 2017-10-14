@@ -119,9 +119,7 @@ class App extends Component {
       const base = await this.state.contract.getMemberBase.call(address);
       const total = await this.state.contract.getMemberTotal.call(address);
 
-      console.log(base);
-      console.log(total);
-      // return this.setState({ len: l, members })
+      return [base, total];
     }
   }
 
@@ -139,8 +137,15 @@ class App extends Component {
   }
 
   submitRating = async (address, score) => {
-    console.log(address, score)
-    return this.state.contract.addRatingToMember(address,score, {from:this.state.currentUser, gas: 3000000 })
+    const [base, total] = await this.getRating(address);
+    let res;
+    if (base.toString() === "0") {
+      res = this.state.contract.addRatingToMember(address, score, {from:this.state.currentUser, gas: 300000 })
+    } else {
+      
+    }
+     console.log(address, score, base, total);
+    return res;
   }
 
   render() {
