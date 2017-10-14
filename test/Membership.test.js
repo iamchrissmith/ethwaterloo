@@ -34,7 +34,6 @@ contract('Membership', function(accounts) {
   it('owner can add other members', () => {
     return contract.addMember(nonMember, {from:owner})
       .then( tx => {
-        console.log(tx.logs[0].args)
         const args = tx.logs[0].args
         assert.strictEqual(args.newMember, nonMember, 'new member was not added')
         assert.equal(args.index.toNumber(), 4);
