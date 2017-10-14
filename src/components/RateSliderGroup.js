@@ -13,7 +13,12 @@ export default class RateSliderGroup extends Component {
 
 					{this.props.members.map( 
 						(member, i) => 
-							<RateSlider key={i} name={this.props.names[i]} address={member} submitRating={this.props.submitRating}/>
+							<RateSlider 
+								key={i} 
+								name={this.props.names[i]} address={member} 
+								submitRating={this.props.submitRating}
+								currentUser={this.props.currentUser}
+							/>
 					)}
 					</Container>
 					</div>

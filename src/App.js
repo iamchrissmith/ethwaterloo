@@ -52,7 +52,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    this.setCurrentUser = this.setCurrentUser.bind(this)
+    // this.setCurrentUser = this.setCurrentUser.bind(this)
 
     const keys = paillier.generateKeys(1024);
     this.state = {
@@ -95,7 +95,7 @@ class App extends Component {
     })
   }
 
-  setCurrentUser(err, accounts) {
+  setCurrentUser = (err, accounts) => {
     return this.setState({currentUser: accounts[0]});
   }
 
@@ -170,6 +170,7 @@ class App extends Component {
       <RateSliderGroup 
         members={this.state.members}
         names={this.state.names}
+        currentUser={this.state.currentUser}
         submitRating={this.submitRating}
       />
 		</Container>
