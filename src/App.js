@@ -87,15 +87,14 @@ class App extends Component {
   }
 
   render() {
-    // data.labels = this.state.members;
-    console.log(this.state.members);
+
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal">
             <a href="#" className="pure-menu-heading pure-menu-link">Truffle Box</a>
         </nav>
 
-        <Radar width={500} height={500} data={Object.assign(data, {labels: this.state.members})} options={options} />
+        <Radar width={500} height={500} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} options={options} />
 
         <main className="container">
           <div className="pure-g">
