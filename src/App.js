@@ -100,18 +100,21 @@ class App extends Component {
   }
 
   async getRating(address) {
-    const contract = require('truffle-contract');
-    console.log(address);
-    const sphere = contract(Sphere);
-    sphere.setProvider(this.state.web3.currentProvider);
+    if (address) {
+      const contract = require('truffle-contract');
+      console.log(address);
+      const sphere = contract(Sphere);
+      sphere.setProvider(this.state.web3.currentProvider);
 
-    const instance = await sphere.deployed();
-    const base = await instance.getMemberBase.call(address);
-    const total = await instance.getMemberTotal.call(address);
+      const instance = await sphere.deployed();
+      const base = await instance.getMemberBase.call(address);
+      const total = await instance.getMemberTotal.call(address);
 
-    console.log(base);
-    console.log(total);
-    // return this.setState({ len: l, members })
+      console.log(base);
+      console.log(total);
+      // return this.setState({ len: l, members })
+      
+    }
   }
 
   async getMembers() {
@@ -141,7 +144,7 @@ class App extends Component {
   }
 
   render() {
-    // console.log(this.getRating(this.state.members[0]));
+    console.log(this.getRating(this.state.members[0]));
     return (
       <div className="App">
 
@@ -167,7 +170,7 @@ class App extends Component {
 			<div>
 				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
 			</div>
-      <RateSliderGroup 
+      <RateSliderGroup
         members={this.state.members}
         names={this.state.names}
         submitRating={this.submitRating}
