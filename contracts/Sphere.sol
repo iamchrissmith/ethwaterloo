@@ -25,13 +25,13 @@ contract Sphere is Membership, Pausable {
 
     /*----------- Constructor -----------*/
 
-    function Sphere(uint256 _one) {
-        one = _one;
+    function Sphere(/*uint256 _one*/) {
+        /*one = _one;*/
     }
 
     /*----------- Member Methods -----------*/
 
-    function addRatingToMember(address member, uint256 rating)
+    function addRatingToMember(address member, uint256 count, uint256 total)
       public
       fromMember
       isAMember(member)
@@ -41,8 +41,8 @@ contract Sphere is Membership, Pausable {
       // TODO: restrict 1 rating per period.
       // TODO: emit rating completed when (ratingsReceived[member] == (memberCount - 1)*2)
 
-      ratings[member].count += one;
-      ratings[member].total += rating;
+      ratings[member].count = count;
+      ratings[member].total = total;
       ratingsReceived[member] += 1;
 
       return true;
