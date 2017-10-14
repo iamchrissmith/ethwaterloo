@@ -1,8 +1,9 @@
 pragma solidity ^0.4.2;
 
 import './Pausable.sol';
+import './Membership.sol'; 
 
-contract Sphere is Pausable {
+contract Sphere is Membership, Pausable {
   /**
     * Rating
     * * addRatingToMember(address, uint)
@@ -14,7 +15,6 @@ contract Sphere is Pausable {
     */
     /*----------- Types -----------*/
 
-<<<<<<< HEAD
     struct Rating {
         uint256 count;
         uint256 total;
@@ -24,32 +24,7 @@ contract Sphere is Pausable {
 
     uint256 one;
 
-    mapping(address => bool) public memberExists;
-
-    address[] public members;
-
     mapping(address => Rating) public ratings;
-
-
-    /*----------- Events -----------*/
-=======
-    /*----------- Types -----------*/
-
-    struct Rating {
-        uint256 count;
-        uint256 total;
-    }
-
-    /*----------- Globals -----------*/
-
-    uint256 one;
-
-    mapping(address => bool) public memberExists;
-
-    address[] public members;
-
-    mapping(address => Rating) public ratings;
->>>>>>> 264e51c702831a2adc98ff6fcd5ec86e7f369dfd
 
 
     /*----------- Events -----------*/
@@ -61,21 +36,6 @@ contract Sphere is Pausable {
 
     function Sphere(uint256 _one) {
         one = _one;
-
-        memberExists[0xBd79c7E5ae6a8604418832Cf8596b56Fb4D40eC9] = true;
-        memberExists[0x3b3F565B900cE367e989909C2cE470CD0ce62BA7] = true;
-        memberExists[0xCAf4ad7eddb82994B33D5a60b565E3129af80032] = true;
-        memberExists[0x8e6a7eEc280a7CB433d9ef66cC60f88F12eDf8a9] = true;
-
-        members = [0xBd79c7E5ae6a8604418832Cf8596b56Fb4D40eC9, 0x3b3F565B900cE367e989909C2cE470CD0ce62BA7, 0xCAf4ad7eddb82994B33D5a60b565E3129af80032, 0x8e6a7eEc280a7CB433d9ef66cC60f88F12eDf8a9];
-    }
-
-    /*----------- Modifiers -----------*/
-
-
-    modifier fromMember() {
-        require(memberExists[msg.sender]);
-        _;
     }
 
     /**
