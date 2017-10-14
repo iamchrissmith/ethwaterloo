@@ -1,7 +1,7 @@
 pragma solidity ^0.4.2;
 
 import './Pausable.sol';
-import './Membership.sol'; 
+import './Membership.sol';
 
 contract Sphere is Membership, Pausable {
   /**
@@ -60,6 +60,10 @@ contract Sphere is Membership, Pausable {
 
     function getMemberCount() public constant returns(uint256) {
         return members.length;
+    }
+
+    function getMembers() public constant returns(address[]) {
+        return members;
     }
 
     /*function getRatingForMember(address member) public returns(uint rating);*/

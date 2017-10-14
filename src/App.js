@@ -85,6 +85,7 @@ class App extends Component {
     const instance = await sphere.deployed();
     const len = await instance.getMemberCount();
 
+    console.log(await instance.getMembers.call());
     let members = [];
     let l = len.toNumber();
     for (let i = 0; i < l; i += 1) {
@@ -108,9 +109,9 @@ class App extends Component {
 			</div>
 			<RateSliderGroup />
 		</Container>
-		
+
 		<ResultsTable />
-		
+
       </div>
     );
   }
