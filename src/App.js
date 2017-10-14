@@ -5,7 +5,8 @@ import ResultsTable from './components/ResultsTable';
 import { Container, Header, Rating } from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
-
+import paillier from 'jspaillier';
+import jsbn from 'jsbn';
 
 const data = {
   labels: ['Max Nachamkin', 'Chris Smith', 'Noah', 'Vitalik'],
@@ -49,12 +50,20 @@ import './App.css'
 class App extends Component {
   constructor(props) {
     super(props)
-
+    const keys = paillier.generateKeys(1024);
     this.state = {
       len: 0,
+      publicKey: keys.pub,
+      privateKey: keys.sec.lambda,
       web3: null,
       members: []
     }
+
+    console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+
   }
 
   componentWillMount() {
