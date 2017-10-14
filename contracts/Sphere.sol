@@ -47,15 +47,12 @@ contract Sphere is Membership, Pausable {
       return true;
     }
 
-<<<<<<< HEAD
     /*----------- Constants -----------*/
 
     function getMemberCount() public constant returns(uint256) {
         return members.length;
     }
 
-    /*function getRatingForMember(address member) public returns(uint rating);*/
-=======
     /*----------- Public Methods -----------*/
 
     function getRatingForMember(address member) 
@@ -72,7 +69,6 @@ contract Sphere is Membership, Pausable {
         ratings[member].total
       );
     }
->>>>>>> sphere-contract
 
     function countRatingsReceived(address member)
       public
