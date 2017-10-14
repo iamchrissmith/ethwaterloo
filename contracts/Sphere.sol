@@ -56,6 +56,12 @@ contract Sphere is Membership, Pausable {
         return true;
     }
 
+    /*----------- Cnstants -----------*/
+
+    function getMemberCount() public constant returns(uint256) {
+        return members.length;
+    }
+
     /*function getRatingForMember(address member) public returns(uint rating);*/
 
     // function getRatingForMember(address member) public returns(uint rating);
