@@ -50,12 +50,20 @@ class App extends Component {
   constructor(props) {
     super(props)
 
+    this.setCurrentUser = this.setCurrentUser.bind(this)
+
     this.state = {
       len: 0,
       web3: null,
-      members: []
+      contract: {},
+      names: ["Vitalk", "Noah", "Max", "Chris"],
+      members: [],
+      currentUser: ''
     }
   }
+
+  // get ratings for each member
+  // submitRating async function
 
   componentWillMount() {
     // Get network provider and web3 instance.
@@ -75,6 +83,9 @@ class App extends Component {
     })
   }
 
+  setCurrentUser(err, accounts) {
+    return this.setState({currentUser: accounts[0]});
+  }
 
   async getMembers() {
     const contract = require('truffle-contract');
@@ -82,35 +93,48 @@ class App extends Component {
     const sphere = contract(Sphere);
     sphere.setProvider(this.state.web3.currentProvider);
 
+    this.state.web3.eth.getAccounts(this.setCurrentUser)
+
     const instance = await sphere.deployed();
+    this.setState({contract: instance})
     const len = await instance.getMemberCount();
 
     let members = [];
     let l = len.toNumber();
     for (let i = 0; i < l; i += 1) {
-        members.push(await instance.members.call(i))
+      members.push(await instance.members.call(i))
     }
 
     return this.setState({ len: l, members })
+  }
+
+  async submitRatings(e) {
+    e.preventDefault()
+    console.log(e)
+
   }
 
   render() {
 
     return (
       <div className="App">
-		<Header size='huge' textAlign='center'>
-	      Sphere Name
-	    </Header>
+        <Header size='huge' textAlign='center'>
+            Sphere Name
+          </Header>
 
-		<Container textAlign='center' style={{ marginTop: '7em' }}>
-			<div align="topleft">
-				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
-			</div>
-			<RateSliderGroup />
-		</Container>
-		
-		<ResultsTable />
-		
+        <Container textAlign='center' style={{ marginTop: '7em' }}>
+          <div align="topleft">
+            <Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
+          </div>
+          <RateSliderGroup 
+            members={this.state.members} 
+            names={this.state.names}
+            submitRatings={this.submitRatings}
+          />
+        </Container>
+
+        <ResultsTable />
+
       </div>
     );
   }

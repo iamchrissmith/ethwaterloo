@@ -4,7 +4,11 @@ import { Rating, Card } from 'semantic-ui-react'
 export default class RateSlider extends Component {
   state = { rating: 0 }
 
-  handleChange = e => this.setState({ rating: e.target.value })
+	handleChange = e => this.setState({ rating: e.target.value })
+	
+	updateRating(e, data) {
+		console.log(e, data);
+	}
 
   render() {
     const { rating } = this.state
@@ -18,11 +22,11 @@ export default class RateSlider extends Component {
 		      <Card.Meta>
 		        { this.props.address }
 		      </Card.Meta>
-		      <Card.Description>
+					<Card.Description>
 		        <input type='range' min={0} max={10} value={rating} onChange={this.handleChange} />
 				<br />
 				Rating: {rating}
-		        <Rating rating={this.state.rating} maxRating={10} disabled={true} hidden={true} />
+		        <Rating rating={this.state.rating} maxRating={10} disabled={true} hidden={true} onRate={this.updateRating} />
 		      </Card.Description>
 		    </Card.Content>
 		  </Card>

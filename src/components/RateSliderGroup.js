@@ -9,13 +9,14 @@ export default class RateSliderGroup extends Component {
 
     return (
       <div>
-		<Container text textAlign='center'>
-		<RateSlider name="Max" address="0x0342342"/>
-		<RateSlider name="Chris" address="0x499939" />
-		<RateSlider name="Vitalk" address="0x736423"/>
-		<RateSlider name="Noah" address="0x69696969"/>
-		<Button color="green">Submit That Bitch</Button>
-		</Container>
+				<Container text textAlign='center'>
+
+					{this.props.members.map( 
+						(member, i) => 
+							<RateSlider key={i} name={this.props.names[i]} address={member}/>
+					)}
+					<Button color="green" onClick={this.props.submitRatings}>Submit Ratings</Button>
+				</Container>
       </div>
     )
   }
