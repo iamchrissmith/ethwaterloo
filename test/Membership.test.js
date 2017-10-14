@@ -49,5 +49,9 @@ contract('Membership', function(accounts) {
       })
   })
 
-  xit('non-owners cannot add members', () => {})
+  it('non-owners cannot add members', () => {
+    return expectedExceptionPromise( () => {
+      return contract.addMember(nonMember, {from:member})
+    }, 3000000);
+  })
 });
