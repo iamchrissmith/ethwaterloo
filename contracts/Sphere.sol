@@ -25,7 +25,7 @@ contract Sphere is Membership, Pausable {
     uint256 one;
 
     mapping(address => Rating) public ratings;
-
+    mapping(address => uint256) public ratingsReceived;
 
     /*----------- Events -----------*/
 
@@ -47,16 +47,42 @@ contract Sphere is Membership, Pausable {
      * * LogCompleteRating
      * * getRatingForMember
      */
-    function addRatingToMember(address member, uint256 rating) public fromMember returns(bool success) {
-        // TODO: restrict 1 rating per period.
+    function addRatingToMember(address member, uint256 rating) 
+      public 
+      fromMember 
+      isAMember(member)
+      returns(bool success) 
+    {
+      // TODO: restrict 1 rating per period.
 
-        ratings[member].count += one;
-        ratings[member].total += rating;
+      ratings[member].count += one;
+      ratings[member].total += rating;
+      ratingsReceived[member] += 1;
 
-        return true;
+      return true;
     }
 
-    /*function getRatingForMember(address member) public returns(uint rating);*/
+    function getRatingForMember(address member) 
+      public 
+      constant
+      isAMember(member)
+      returns(
+        uint256 count,
+        uint256 total
+      )
+    {
+      return (
+        ratings[member].count,
+        ratings[member].total
+      );
+    }
 
-    // function getRatingForMember(address member) public returns(uint rating);
+    function countRatingsReceived(address member)
+      public
+      constant
+      isAMember(member)
+      returns(uint256 count)
+    {
+      return ratingsReceived[member];
+    }
 }

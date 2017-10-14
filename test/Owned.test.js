@@ -1,4 +1,5 @@
-var Owned = artifacts.require("./Owned.sol");
+const Owned = artifacts.require("./Owned.sol");
+web3.eth.getTransactionReceiptMined = require("./libs/getTransactionReceiptMined.js");
 const expectedExceptionPromise = require('./libs/expected_exception_testRPC_and_geth');
 
 contract('Owned', function(accounts) {
