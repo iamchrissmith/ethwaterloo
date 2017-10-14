@@ -1,6 +1,14 @@
 pragma solidity ^0.4.2;
 
 contract Sphere {
+
+
+  uint256 one;
+
+
+ function Sphere(uint256 _one) {
+   one = _one;
+ }
   /**
    * Owned
    * * setOwner
@@ -35,6 +43,7 @@ contract Sphere {
   }
 
   function setPaused(bool newState) public fromOwner returns(bool success);*/
+
   /**
    * Members
    * * LogNewMember
@@ -42,23 +51,26 @@ contract Sphere {
    * * getMemberAtIndex
    * * isMember
    */
-  mapping(address => uint) public memberExists;
+  mapping(address => bool) public memberExists;
   address[] public members;
-  uint public maxMember;
+  /*uint8 public maxMember;*/
 
-  event LogNewMember(address sender, address newMember, uint index);
+  /*event LogNewMember(address sender, address newMember, uint8 index);*/
 
-  modifier fromMember {}
-
-  function Members() {
-    addMember(msg.sender);
+  modifier fromMember() {
+    require(memberExists[msg.sender]);
+    _;
   }
 
-  function addMember(address newMember) public fromOwner returns(bool success);
+  /*function Members() {
+    addMember(msg.sender);
+  }*/
 
-  function getMemberAtIndex(address member) public returns(uint index);
+  /*function addMember(address newMember) public fromOwner returns(bool success);*/
 
-  function isMember(address member) public returns(bool isMember);
+  /*function getMemberAtIndex(address member) public returns(uint index);*/
+
+  /*function isMember(address member) public returns(bool isMember);*/
 
   /**
    * Rating
@@ -71,16 +83,23 @@ contract Sphere {
    */
 
     struct Rating {
-      uint count;
-      uint total;
+      uint256 count;
+      uint256 total;
     }
 
     mapping(address => Rating) public ratings;
 
-    event LogCompleteRating(address member, uint base, uint rating);
+    event LogCompleteRating(address member, uint256 avgRating);
 
-    function addRatingToMember(address member, uint rating) public fromMember returns(bool success);
+    function addRatingToMember(address member, uint256 rating) public fromMember returns(bool success) {
+      // TODO: restrict 1 rating per period.
 
-    function getRatingForMember(address member) public returns(uint rating);
+      ratings[member].count += one;
+      ratings[member].total += rating;
+
+      return true;
+    }
+
+    /*function getRatingForMember(address member) public returns(uint rating);*/
 
 }
