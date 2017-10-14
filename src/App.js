@@ -44,7 +44,7 @@ class App extends Component {
     super(props)
 
     this.state = {
-      storageValue: 0,
+      len: 0,
       web3: null,
       members: []
     }
@@ -82,18 +82,20 @@ class App extends Component {
     for (let i = 0; i < l; i += 1) {
         members.push(await instance.members.call(i))
     }
-    console.log(members);
-    return this.setState({ storageValue: l })
+
+    return this.setState({ len: l, members })
   }
 
   render() {
+    // data.labels = this.state.members;
+    console.log(this.state.members);
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal">
             <a href="#" className="pure-menu-heading pure-menu-link">Truffle Box</a>
         </nav>
 
-        <Radar width={500} height={500} data={data} options={options} />
+        <Radar width={500} height={500} data={Object.assign(data, {labels: this.state.members})} options={options} />
 
         <main className="container">
           <div className="pure-g">
@@ -103,7 +105,7 @@ class App extends Component {
               <h2>Smart Contract Example</h2>
               <p>If your contracts compiled and migrated successfully, below will show a stored value of 5 (by default).</p>
               <p>Try changing the value stored on <strong>line 59</strong> of App.js.</p>
-              <p>The stored value is: {this.state.storageValue}</p>
+              <p>The stored value is: {this.state.len}</p>
             </div>
           </div>
         </main>
