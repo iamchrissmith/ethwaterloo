@@ -10,73 +10,21 @@ contract Sphere {
  function Sphere(uint256 _one) {
    one = _one;
 
-   memberExists[0xbd79c7e5ae6a8604418832cf8596b56fb4d40ec9] = true;
-   memberExists[0x3b3f565b900ce367e989909c2ce470cd0ce62ba7] = true;
-   memberExists[0xcaf4ad7eddb82994b33d5a60b565e3129af80032] = true;
-   memberExists[0x8e6a7eec280a7cb433d9ef66cc60f88f12edf8a9] = true;
+   memberExists[0xBd79c7E5ae6a8604418832Cf8596b56Fb4D40eC9] = true;
+   memberExists[0x3b3F565B900cE367e989909C2cE470CD0ce62BA7] = true;
+   memberExists[0xCAf4ad7eddb82994B33D5a60b565E3129af80032] = true;
+   memberExists[0x8e6a7eEc280a7CB433d9ef66cC60f88F12eDf8a9] = true;
+
+   members[0] = 0xBd79c7E5ae6a8604418832Cf8596b56Fb4D40eC9;
+   members[1] = 0x3b3F565B900cE367e989909C2cE470CD0ce62BA7;
+   members[2] = 0xCAf4ad7eddb82994B33D5a60b565E3129af80032;
+   members[3] = 0x8e6a7eEc280a7CB433d9ef66cC60f88F12eDf8a9;
  }
-  /**
-   * Owned
-   * * setOwner
-   * * getOwner
-   * * LogOwnerSet
-   */
-  /*address internal owner;
-
-  modifier fromOwner {}
-
-  function Owned() {
-    owned = msg.sender;
-  }
-
-  function setOwner(address newOwner) public fromOwner returns(bool success);
-
-  function getOwner() constant public returns(address owner);*/
-
-  /**
-   * Pausible
-   * * LogPausedSet
-   * * setPaused
-   * * isPaused
-   */
-  /*bool public paused;
-
-  modifier whenPaused {}
-  modifier whenNotPaused {}
-
-  function Pausible(bool isPaused){
-    paused = isPaused;
-  }
-
-  function setPaused(bool newState) public fromOwner returns(bool success);*/
-
-  /**
-   * Members
-   * * LogNewMember
-   * * addMember
-   * * getMemberAtIndex
-   * * isMember
-   */
-  mapping(address => bool) public memberExists;
-  address[] public members;
-  /*uint8 public maxMember;*/
-
-  /*event LogNewMember(address sender, address newMember, uint8 index);*/
 
   modifier fromMember() {
     require(memberExists[msg.sender]);
     _;
   }
-
-  /*function Members() {
-    addMember(msg.sender);
-  }*/
-
-  /*function addMember(address newMember) public fromOwner returns(bool success);*/
-
-  /*function getMemberAtIndex(address member) public returns(uint index);*/
-
-  /*function isMember(address member) public returns(bool isMember);*/
 
   /**
    * Rating
