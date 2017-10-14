@@ -65,7 +65,7 @@ contract Sphere {
         return true;
     }
 
-    /*----------- Cnstants -----------*/
+    /*----------- Constants -----------*/
 
     function getMemberCount() public constant returns(uint256) {
         return members.length;

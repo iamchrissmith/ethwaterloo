@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Rating } from 'semantic-ui-react';
-import Spheres from '../build/contracts/Spheres.json';
+import Sphere from '../build/contracts/Sphere.json';
 import getWeb3 from './utils/getWeb3';
-import {Radar} from 'react-chartjs-2';
+import { Radar } from 'react-chartjs-2';
 
 
 const data = {
@@ -46,7 +45,8 @@ class App extends Component {
 
     this.state = {
       storageValue: 0,
-      web3: null
+      web3: null,
+      members: []
     }
   }
 
@@ -61,43 +61,29 @@ class App extends Component {
       })
 
       // Instantiate contract once web3 provided.
-      this.instantiateContract()
+      this.getMembers()
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
   }
 
-  instantiateContract() {
-    /*
-     * SMART CONTRACT EXAMPLE
-     *
-     * Normally these functions would be called in the context of a
-     * state management library, but for convenience I've placed them here.
-     */
 
+  async getMembers() {
     const contract = require('truffle-contract');
-    const spheres = contract(Spheres);
-    spheres.setProvider(this.state.web3.currentProvider);
+    const sphere = contract(Sphere);
+    sphere.setProvider(this.state.web3.currentProvider);
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    let spheresInstance;
+    const instance = await sphere.deployed();
+    const len = await instance.getMemberCount();
 
-    // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      spheres.deployed().then((instance) => {
-        spheresInstance = instance
-
-        // Stores a given value, 5 by default.
-        return spheresInstance.set(5, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return spheresInstance.get.call(accounts[0])
-      }).then((result) => {
-        // Update state with the result.
-        return this.setState({ storageValue: result.c[0] })
-      })
-    })
+    let members = [];
+    let l = len.toNumber();
+    for (let i = 0; i < l; i += 1) {
+        members.push(await instance.members.call(i))
+    }
+    console.log(members);
+    return this.setState({ storageValue: l })
   }
 
   render() {
