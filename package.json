@@ -52,8 +52,10 @@
     "dotenv": "^2.0.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-	"chart.js": "*",
-    "react-chartjs-2": "*"
+    "chart.js": "*",
+    "react-chartjs-2": "*",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2"
   },
   "scripts": {
     "start": "node scripts/start.js",
