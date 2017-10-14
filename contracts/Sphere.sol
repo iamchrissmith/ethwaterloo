@@ -14,6 +14,7 @@ contract Sphere is Pausable {
     */
     /*----------- Types -----------*/
 
+<<<<<<< HEAD
     struct Rating {
         uint256 count;
         uint256 total;
@@ -28,6 +29,27 @@ contract Sphere is Pausable {
     address[] public members;
 
     mapping(address => Rating) public ratings;
+
+
+    /*----------- Events -----------*/
+=======
+    /*----------- Types -----------*/
+
+    struct Rating {
+        uint256 count;
+        uint256 total;
+    }
+
+    /*----------- Globals -----------*/
+
+    uint256 one;
+
+    mapping(address => bool) public memberExists;
+
+    address[] public members;
+
+    mapping(address => Rating) public ratings;
+>>>>>>> 264e51c702831a2adc98ff6fcd5ec86e7f369dfd
 
 
     /*----------- Events -----------*/
