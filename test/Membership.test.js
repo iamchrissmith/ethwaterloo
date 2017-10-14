@@ -1,4 +1,5 @@
 const Membership = artifacts.require('./Membership.sol');
+web3.eth.getTransactionReceiptMined = require("./libs/getTransactionReceiptMined.js");
 const expectedExceptionPromise = require('./libs/expected_exception_testRPC_and_geth');
 
 contract('Membership', function(accounts) {
@@ -19,7 +20,6 @@ contract('Membership', function(accounts) {
   it('owner is a member', () => {
     return contract.isMember(owner, {from:owner})
       .then( isMember => {
-        console.log(isMember);
         assert.isTrue(isMember, 'The owner is not a member by default')
       })
   })
