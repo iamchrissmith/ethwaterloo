@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
 import RateSliderGroup from './components/RateSliderGroup';
 import ResultsTable from './components/ResultsTable';
-import { Container, Header, Rating } from 'semantic-ui-react';
+import { Container, Header, Segment } from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
-
+import paillier from 'jspaillier';
+import jsbn from 'jsbn';
 
 const data = {
   labels: ['Max Nachamkin', 'Chris Smith', 'Noah', 'Vitalik'],
@@ -25,7 +26,7 @@ const data = {
 };
 
 var options = {
-    responsive: false,
+    responsive: true,
     maintainAspectRatio: true,
     animation: {
 		easing: 'easeInBack',
@@ -35,7 +36,8 @@ var options = {
         ticks: {
             beginAtZero: true,
 			reverse: true,
-            max: 10
+            max: 10,
+			display: false
         }
     }
 };
@@ -49,12 +51,21 @@ import './App.css'
 class App extends Component {
   constructor(props) {
     super(props)
-
+    const keys = paillier.generateKeys(1024);
     this.state = {
       len: 0,
+      publicKey: keys.pub,
+      privateKey: keys.sec.lambda,
       web3: null,
       members: []
     }
+
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    // console.log(keys.pub.n2.toString());
+
   }
 
   componentWillMount() {
@@ -75,6 +86,20 @@ class App extends Component {
     })
   }
 
+  async getRating(address) {
+    const contract = require('truffle-contract');
+    console.log(address);
+    const sphere = contract(Sphere);
+    sphere.setProvider(this.state.web3.currentProvider);
+
+    const instance = await sphere.deployed();
+    const base = await instance.getMemberBase.call(address);
+    const total = await instance.getMemberTotal.call(address);
+
+    console.log(base);
+    console.log(total);
+    // return this.setState({ len: l, members })
+  }
 
   async getMembers() {
     const contract = require('truffle-contract');
@@ -95,15 +120,30 @@ class App extends Component {
   }
 
   render() {
-
+    console.log(this.getRating(this.state.members[0]));
     return (
       <div className="App">
-		<Header size='huge' textAlign='center'>
-	      Sphere Name
-	    </Header>
+
+		<Segment className="gradientHeader">
+		<Container textAlign='center'>
+	              <Header
+	                as='h1'
+	                content='Sphere Name'
+
+	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em' }}
+	              />
+	              <Header
+	                as='h2'
+	                content='Meritocratic Rating Application'
+	                style={{ fontSize: '1.7em', fontWeight: 'normal' }}
+	              />
+
+	            </Container>
+	</Segment>
+
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
-			<div align="topleft">
+			<div>
 				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
 			</div>
 			<RateSliderGroup />

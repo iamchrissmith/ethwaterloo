@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import RateSlider from './RateSlider'
 import { Button, Container } from 'semantic-ui-react'
-import RatingSubmitConfirm from './RatingSubmitConfirm'
+// import RatingSubmitConfirm from './RatingSubmitConfirm'
 
 export default class RateSliderGroup extends Component {
-	
+
   render() {
 
     return (

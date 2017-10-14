@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Rating, Card, Table, Header, Container } from 'semantic-ui-react'
+import { Table, Header, Container } from 'semantic-ui-react'
 
 export default class ResultsTable extends Component {
-	
+
   render() {
 
     return (
@@ -43,4 +43,3 @@ export default class ResultsTable extends Component {
     )
   }
 }
-
