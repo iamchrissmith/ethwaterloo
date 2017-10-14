@@ -4,15 +4,6 @@ import './Pausable.sol';
 import './Membership.sol'; 
 
 contract Sphere is Membership, Pausable {
-  /**
-    * Rating
-    * * addRatingToMember(address, uint)
-    * * * check if we completed last survey round
-    * * * set new base/total
-    * * * check if we completed this survey, emit LogCompleteRating event
-    * * LogCompleteRating
-    * * getRatingForMember
-    */
     /*----------- Types -----------*/
 
     struct Rating {
@@ -25,7 +16,7 @@ contract Sphere is Membership, Pausable {
     uint256 one;
 
     mapping(address => Rating) public ratings;
-
+    mapping(address => uint256) public ratingsReceived;
 
     /*----------- Events -----------*/
 
@@ -38,24 +29,25 @@ contract Sphere is Membership, Pausable {
         one = _one;
     }
 
-    /**
-     * Rating
-     * * addRatingToMember(address, uint)
-     * * * check if we completed last survey round
-     * * * set new base/total
-     * * * check if we completed this survey, emit LogCompleteRating event
-     * * LogCompleteRating
-     * * getRatingForMember
-     */
-    function addRatingToMember(address member, uint256 rating) public fromMember returns(bool success) {
-        // TODO: restrict 1 rating per period.
+    /*----------- Member Methods -----------*/
 
-        ratings[member].count += one;
-        ratings[member].total += rating;
+    function addRatingToMember(address member, uint256 rating) 
+      public 
+      fromMember 
+      isAMember(member)
+      returns(bool success) 
+    {
+      // TODO: restrict 1 rating per period.
+      // TODO: emit rating completed when (ratingsReceived[member] == (memberCount - 1)*2)
 
-        return true;
+      ratings[member].count += one;
+      ratings[member].total += rating;
+      ratingsReceived[member] += 1;
+
+      return true;
     }
 
+<<<<<<< HEAD
     /*----------- Constants -----------*/
 
     function getMemberCount() public constant returns(uint256) {
@@ -63,6 +55,31 @@ contract Sphere is Membership, Pausable {
     }
 
     /*function getRatingForMember(address member) public returns(uint rating);*/
+=======
+    /*----------- Public Methods -----------*/
 
-    // function getRatingForMember(address member) public returns(uint rating);
+    function getRatingForMember(address member) 
+      public 
+      constant
+      isAMember(member)
+      returns(
+        uint256 count,
+        uint256 total
+      )
+    {
+      return (
+        ratings[member].count,
+        ratings[member].total
+      );
+    }
+>>>>>>> sphere-contract
+
+    function countRatingsReceived(address member)
+      public
+      constant
+      isAMember(member)
+      returns(uint256 count)
+    {
+      return ratingsReceived[member];
+    }
 }
