@@ -4,10 +4,16 @@ contract Sphere {
 
 
   uint256 one;
-
+  mapping(address => bool) public memberExists;
+  address[] public members;
 
  function Sphere(uint256 _one) {
    one = _one;
+
+   memberExists[0xbd79c7e5ae6a8604418832cf8596b56fb4d40ec9] = true;
+   memberExists[0x3b3f565b900ce367e989909c2ce470cd0ce62ba7] = true;
+   memberExists[0xcaf4ad7eddb82994b33d5a60b565e3129af80032] = true;
+   memberExists[0x8e6a7eec280a7cb433d9ef66cc60f88f12edf8a9] = true;
  }
   /**
    * Owned

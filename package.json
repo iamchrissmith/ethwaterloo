@@ -60,7 +60,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "testrpc": "testrpc --account='0xdad5277a2260babc685fab496e64d57aa3a832989df0db769d2d8d94c57ba032, 7000000000000000000000000' --account='0xa73e59aaf174f8b0f707583100024ad6c16467c813d074bf8742284da93d759b, 7000000000000000000000000' --account='0x1a2ffc6fc90b1042882cedea1a6b2023db9a760f18b65fd5434ccf8a332d1d22, 7000000000000000000000000' --account='0x288774987767b57de0085f3dd14bd0ca102b43c1e97846572d67584d32e8d2b5, 7000000000000000000000000'"
   },
   "jest": {
     "collectCoverageFrom": [
