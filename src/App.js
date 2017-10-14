@@ -96,6 +96,7 @@ class App extends Component {
       this.setState({contract: instance})
 
       // Instantiate contract once web3 provided.
+      const currentUser = await this.state.web3.eth.getAccounts(this.setCurrentUser)
       const members = await this.getMembers()
       console.log(this.getRating(this.state.members[0]));
 
@@ -125,8 +126,6 @@ class App extends Component {
   }
 
   async getMembers() {
-    this.state.web3.eth.getAccounts(this.setCurrentUser)
-
     const len = await this.state.contract.getMemberCount();
 
     let members = [];
