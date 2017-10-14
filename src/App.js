@@ -63,6 +63,7 @@ class App extends Component {
       contract: {},
       names: ["Vitalk", "Noah", "Max", "Chris"],
       members: [],
+      ratings: [0, 0, 0, 0],
       currentUser: ''
     }
 
@@ -88,7 +89,7 @@ class App extends Component {
       })
 
       const contract = require('truffle-contract');
-      
+
       const sphere = contract(Sphere);
       sphere.setProvider(this.state.web3.currentProvider);
 
@@ -104,7 +105,7 @@ class App extends Component {
       console.log('Error finding web3.')
     })
   }
-  
+
   componentDidMount() {
   }
 
@@ -117,7 +118,7 @@ class App extends Component {
       console.log(address);
       const base = await this.state.contract.getMemberBase.call(address);
       const total = await this.state.contract.getMemberTotal.call(address);
-  
+
       console.log(base);
       console.log(total);
       // return this.setState({ len: l, members })
@@ -166,9 +167,11 @@ class App extends Component {
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
 			<div>
-				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
+				<Radar width={500} height={500} options={options} data={
+          Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
+        } />
 			</div>
-      <RateSliderGroup 
+      <RateSliderGroup
         members={this.state.members}
         names={this.state.names}
         currentUser={this.state.currentUser}
