@@ -20,7 +20,7 @@ export default class RateSlider extends Component {
 		        { this.props.name }
 		      </Card.Header>
 		      <Card.Meta>
-		        { this.props.address }
+		        { this.props.address.slice(0,10) }
 		      </Card.Meta>
 					<Card.Description>
 						<input type='range' min={0} max={10} value={rating} onChange={this.handleChange} disabled={this.props.address == this.props.currentUser}/>
@@ -35,4 +35,3 @@ export default class RateSlider extends Component {
     )
   }
 }
-

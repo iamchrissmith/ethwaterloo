@@ -12,7 +12,7 @@ export default class RateSlider extends Component {
     return (
       <div>
 		<div>Name: { this.props.name }</div>
-		<div>Address: { this.props.address }</div>
+		<div>Address: { this.props.address.slice(0,8) }</div>
         <div>Rating: {rating}</div>
         <input type='range' min={0} max={10} value={rating} onChange={this.handleChange} />
         <br />
@@ -21,4 +21,3 @@ export default class RateSlider extends Component {
     )
   }
 }
-
