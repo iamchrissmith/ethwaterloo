@@ -55,7 +55,8 @@
     "chart.js": "*",
     "react-chartjs-2": "*",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.74.2"
+    "semantic-ui-react": "^0.74.2",
+	"semantic-ui-range": "^1.0.1"
   },
   "scripts": {
     "start": "node scripts/start.js",

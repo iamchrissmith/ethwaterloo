@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { Rating } from 'semantic-ui-react';
-import Spheres from '../build/contracts/Spheres.json';
+//import Spheres from '../build/contracts/Spheres.json';
 import getWeb3 from './utils/getWeb3';
-import {Radar} from 'react-chartjs-2';
+import { Radar } from 'react-chartjs-2';
+import RateSliderGroup from './components/RateSliderGroup';
+import ResultsTable from './components/ResultsTable';
+import { Container, Header } from 'semantic-ui-react';
+
 
 
 const data = {
@@ -25,6 +29,10 @@ const data = {
 var options = {
     responsive: false,
     maintainAspectRatio: true,
+    animation: {
+		easing: 'easeInBack',
+		duration: 3000
+	},
     scale: {
         ticks: {
             beginAtZero: true,
@@ -77,7 +85,7 @@ class App extends Component {
      */
 
     const contract = require('truffle-contract');
-    const spheres = contract(Spheres);
+    /* const spheres = contract(Spheres);
     spheres.setProvider(this.state.web3.currentProvider);
 
     // Declaring this for later so we can chain functions on SimpleStorage.
@@ -97,30 +105,26 @@ class App extends Component {
         // Update state with the result.
         return this.setState({ storageValue: result.c[0] })
       })
-    })
+    }) */
   }
 
   render() {
     return (
       <div className="App">
-        <nav className="navbar pure-menu pure-menu-horizontal">
-            <a href="#" className="pure-menu-heading pure-menu-link">Truffle Box</a>
-        </nav>
+		<Header size='huge' textAlign='center'>
+	      Sphere Name
+	    </Header>
 
-        <Radar width={500} height={500} data={data} options={options} />
-
-        <main className="container">
-          <div className="pure-g">
-            <div className="pure-u-1-1">
-              <h1>Good to Go!</h1>
-              <p>Your Truffle Box is installed and ready.</p>
-              <h2>Smart Contract Example</h2>
-              <p>If your contracts compiled and migrated successfully, below will show a stored value of 5 (by default).</p>
-              <p>Try changing the value stored on <strong>line 59</strong> of App.js.</p>
-              <p>The stored value is: {this.state.storageValue}</p>
-            </div>
-          </div>
-        </main>
+		<Container textAlign='center' style={{ marginTop: '7em' }}>
+			<div align="topleft">
+				<Radar width={500} height={500} data={data} options={options} />
+			</div>
+			<RateSliderGroup />
+		</Container>
+		
+		<ResultsTable />
+	
+		
       </div>
     );
   }
