@@ -108,9 +108,9 @@ class App extends Component {
 			</div>
 			<RateSliderGroup />
 		</Container>
-		
+
 		<ResultsTable />
-		
+
       </div>
     );
   }
