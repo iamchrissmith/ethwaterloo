@@ -21,7 +21,7 @@ const data = {
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(179,181,198,1)',
       lineTension: .5,
-      data: [8, 6, 6, 9]
+      data: [0, 0, 0, 0]
     }
   ]
 };
@@ -160,7 +160,7 @@ class App extends Component {
       address,
       newBase.toString(),
       newTotal.toString(),
-      {from:this.state.currentUser, gas: 300000 }
+      {from:this.state.currentUser, gas: 500000 }
     );;
   }
 
