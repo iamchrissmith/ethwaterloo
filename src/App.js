@@ -60,11 +60,11 @@ class App extends Component {
       members: []
     }
 
-    console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
-    console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
-    console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
-    console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
-    console.log(keys.pub.n2.toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
+    // console.log(keys.pub.n2.toString());
 
   }
 
@@ -88,14 +88,13 @@ class App extends Component {
 
   async getRating(address) {
     const contract = require('truffle-contract');
-
+    console.log(address);
     const sphere = contract(Sphere);
     sphere.setProvider(this.state.web3.currentProvider);
 
     const instance = await sphere.deployed();
-
-    const base = await instance.getMemberBase();
-    const total = await instance.getMemberTotal();
+    const base = await instance.getMemberBase.call(address);
+    const total = await instance.getMemberTotal.call(address);
 
     console.log(base);
     console.log(total);
@@ -121,7 +120,7 @@ class App extends Component {
   }
 
   render() {
-
+    console.log(this.getRating(this.state.members[0]));
     return (
       <div className="App">
 
@@ -130,7 +129,7 @@ class App extends Component {
 	              <Header
 	                as='h1'
 	                content='Sphere Name'
-	           
+
 	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em' }}
 	              />
 	              <Header
@@ -138,14 +137,14 @@ class App extends Component {
 	                content='Meritocratic Rating Application'
 	                style={{ fontSize: '1.7em', fontWeight: 'normal' }}
 	              />
-	
+
 	            </Container>
 	</Segment>
 
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
 			<div>
-				<Radar width={500} height={500} options={options} data={data} /> 
+				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
 			</div>
 			<RateSliderGroup />
 		</Container>
