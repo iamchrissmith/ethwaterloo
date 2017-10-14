@@ -11,10 +11,10 @@ export default class RateSliderGroup extends Component {
       <div>
 				<Container text textAlign='center'>
 
-					{this.props.members.map( 
-						(member, i) => 
-							<RateSlider 
-								key={i} 
+					{this.props.members.map(
+						(member, i) =>
+							<RateSlider
+								key={i}
 								name={this.props.names[i]} address={member} 
 								submitRating={this.props.submitRating}
 								currentUser={this.props.currentUser}
@@ -25,5 +25,5 @@ export default class RateSliderGroup extends Component {
 				)
 			}
 		}
-		
+
 		// <Button color="green" onClick={this.props.submitRatings}>Submit Ratings</Button>
