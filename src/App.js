@@ -135,10 +135,9 @@ class App extends Component {
     return this.setState({ len: l, members })
   }
 
-  async submitRatings(e) {
-    e.preventDefault()
-    console.log(e)
-
+  submitRating = async (address, score) => {
+    console.log(address, score)
+    return this.state.contract.addRatingToMember(address,score, {from:this.state.currentUser, gas: 3000000 })
   }
 
   render() {
@@ -171,7 +170,7 @@ class App extends Component {
       <RateSliderGroup 
         members={this.state.members}
         names={this.state.names}
-        
+        submitRating={this.submitRating}
       />
 		</Container>
 

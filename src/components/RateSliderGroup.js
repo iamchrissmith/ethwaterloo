@@ -13,11 +13,12 @@ export default class RateSliderGroup extends Component {
 
 					{this.props.members.map( 
 						(member, i) => 
-							<RateSlider key={i} name={this.props.names[i]} address={member}/>
+							<RateSlider key={i} name={this.props.names[i]} address={member} submitRating={this.props.submitRating}/>
 					)}
-					<Button color="green" onClick={this.props.submitRatings}>Submit Ratings</Button>
-				</Container>
-      </div>
-    )
-  }
-}
+					</Container>
+					</div>
+				)
+			}
+		}
+		
+		// <Button color="green" onClick={this.props.submitRatings}>Submit Ratings</Button>
