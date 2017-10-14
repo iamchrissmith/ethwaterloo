@@ -52,6 +52,12 @@ contract('Sphere', function(accounts) {
       return contract.countRatingsReceived(nonMember, {from:owner})
     }, 3000000);
   })
+
+  it('throws errors if member tries to rate self', () => {
+    return expectedExceptionPromise( () => {
+      return contract.addRatingToMember(owner, 10, {from:owner})
+    }, 3000000);
+  })
   
   it('throws errors if nonMember tries to rate', () => {
     return expectedExceptionPromise(

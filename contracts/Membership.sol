@@ -74,5 +74,4 @@ contract Membership is Owned {
   {
     return memberExists[member];
   }
-
 }

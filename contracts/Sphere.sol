@@ -37,6 +37,7 @@ contract Sphere is Membership, Pausable {
       isAMember(member)
       returns(bool success) 
     {
+      require(msg.sender != member);
       // TODO: restrict 1 rating per period.
       // TODO: emit rating completed when (ratingsReceived[member] == (memberCount - 1)*2)
 
