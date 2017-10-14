@@ -1,86 +1,68 @@
 pragma solidity ^0.4.2;
 
-contract Sphere {
+import './Pausable.sol';
+import './Membership.sol'; 
+
+contract Sphere is Membership, Pausable {
   /**
-   * Owned
-   * * setOwner
-   * * getOwner
-   * * LogOwnerSet
-   */
-  /*address internal owner;
-
-  modifier fromOwner {}
-
-  function Owned() {
-    owned = msg.sender;
-  }
-
-  function setOwner(address newOwner) public fromOwner returns(bool success);
-
-  function getOwner() constant public returns(address owner);*/
-
-  /**
-   * Pausible
-   * * LogPausedSet
-   * * setPaused
-   * * isPaused
-   */
-  /*bool public paused;
-
-  modifier whenPaused {}
-  modifier whenNotPaused {}
-
-  function Pausible(bool isPaused){
-    paused = isPaused;
-  }
-
-  function setPaused(bool newState) public fromOwner returns(bool success);*/
-  /**
-   * Members
-   * * LogNewMember
-   * * addMember
-   * * getMemberAtIndex
-   * * isMember
-   */
-  mapping(address => uint) public memberExists;
-  address[] public members;
-  uint public maxMember;
-
-  event LogNewMember(address sender, address newMember, uint index);
-
-  modifier fromMember {}
-
-  function Members() {
-    addMember(msg.sender);
-  }
-
-  function addMember(address newMember) public fromOwner returns(bool success);
-
-  function getMemberAtIndex(address member) public returns(uint index);
-
-  function isMember(address member) public returns(bool isMember);
-
-  /**
-   * Rating
-   * * addRatingToMember(address, uint)
-   * * * check if we completed last survey round
-   * * * set new base/total
-   * * * check if we completed this survey, emit LogCompleteRating event
-   * * LogCompleteRating
-   * * getRatingForMember
-   */
+    * Rating
+    * * addRatingToMember(address, uint)
+    * * * check if we completed last survey round
+    * * * set new base/total
+    * * * check if we completed this survey, emit LogCompleteRating event
+    * * LogCompleteRating
+    * * getRatingForMember
+    */
+    /*----------- Types -----------*/
 
     struct Rating {
-      uint count;
-      uint total;
+        uint256 count;
+        uint256 total;
     }
+
+    /*----------- Globals -----------*/
+
+    uint256 one;
 
     mapping(address => Rating) public ratings;
 
-    event LogCompleteRating(address member, uint base, uint rating);
 
-    function addRatingToMember(address member, uint rating) public fromMember returns(bool success);
+    /*----------- Events -----------*/
 
-    function getRatingForMember(address member) public returns(uint rating);
+    event LogCompleteRating(address member, uint256 avgRating);
 
+
+    /*----------- Constructor -----------*/
+
+    function Sphere(uint256 _one) {
+        one = _one;
+    }
+
+    /**
+     * Rating
+     * * addRatingToMember(address, uint)
+     * * * check if we completed last survey round
+     * * * set new base/total
+     * * * check if we completed this survey, emit LogCompleteRating event
+     * * LogCompleteRating
+     * * getRatingForMember
+     */
+    function addRatingToMember(address member, uint256 rating) public fromMember returns(bool success) {
+        // TODO: restrict 1 rating per period.
+
+        ratings[member].count += one;
+        ratings[member].total += rating;
+
+        return true;
+    }
+
+    /*----------- Constants -----------*/
+
+    function getMemberCount() public constant returns(uint256) {
+        return members.length;
+    }
+
+    /*function getRatingForMember(address member) public returns(uint rating);*/
+
+    // function getRatingForMember(address member) public returns(uint rating);
 }

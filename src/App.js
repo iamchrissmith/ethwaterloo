@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { Rating } from 'semantic-ui-react';
-//import Spheres from '../build/contracts/Spheres.json';
 import getWeb3 from './utils/getWeb3';
-import { Radar } from 'react-chartjs-2';
 import RateSliderGroup from './components/RateSliderGroup';
 import ResultsTable from './components/ResultsTable';
-import { Container, Header } from 'semantic-ui-react';
-
+import { Container, Header, Rating } from 'semantic-ui-react';
+import Sphere from '../build/contracts/Sphere.json';
+import { Radar } from 'react-chartjs-2';
 
 
 const data = {
@@ -53,8 +51,9 @@ class App extends Component {
     super(props)
 
     this.state = {
-      storageValue: 0,
-      web3: null
+      len: 0,
+      web3: null,
+      members: []
     }
   }
 
@@ -69,46 +68,34 @@ class App extends Component {
       })
 
       // Instantiate contract once web3 provided.
-      this.instantiateContract()
+      this.getMembers()
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
   }
 
-  instantiateContract() {
-    /*
-     * SMART CONTRACT EXAMPLE
-     *
-     * Normally these functions would be called in the context of a
-     * state management library, but for convenience I've placed them here.
-     */
 
+  async getMembers() {
     const contract = require('truffle-contract');
-    /* const spheres = contract(Spheres);
-    spheres.setProvider(this.state.web3.currentProvider);
 
-    // Declaring this for later so we can chain functions on SimpleStorage.
-    let spheresInstance;
+    const sphere = contract(Sphere);
+    sphere.setProvider(this.state.web3.currentProvider);
 
-    // Get accounts.
-    this.state.web3.eth.getAccounts((error, accounts) => {
-      spheres.deployed().then((instance) => {
-        spheresInstance = instance
+    const instance = await sphere.deployed();
+    const len = await instance.getMemberCount();
 
-        // Stores a given value, 5 by default.
-        return spheresInstance.set(5, {from: accounts[0]})
-      }).then((result) => {
-        // Get the value from the contract to prove it worked.
-        return spheresInstance.get.call(accounts[0])
-      }).then((result) => {
-        // Update state with the result.
-        return this.setState({ storageValue: result.c[0] })
-      })
-    }) */
+    let members = [];
+    let l = len.toNumber();
+    for (let i = 0; i < l; i += 1) {
+        members.push(await instance.members.call(i))
+    }
+
+    return this.setState({ len: l, members })
   }
 
   render() {
+
     return (
       <div className="App">
 		<Header size='huge' textAlign='center'>
@@ -117,13 +104,12 @@ class App extends Component {
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
 			<div align="topleft">
-				<Radar width={500} height={500} data={data} options={options} />
+				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
 			</div>
 			<RateSliderGroup />
 		</Container>
 		
 		<ResultsTable />
-	
 		
       </div>
     );
