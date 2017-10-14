@@ -5,7 +5,10 @@ export default class RateSlider extends Component {
   state = { rating: 0 }
 
 	handleChange = e => this.setState({ rating: e.target.value })
-	handleSubmit = e => this.props.submitRating(this.props.address, this.state.rating)
+	handleSubmit = async e => {
+		const tx = await this.props.submitRating(this.props.address, this.state.rating)
+		this.setState({rating: 0})
+	}
 
   render() {
     const { rating } = this.state
