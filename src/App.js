@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
 import RateSliderGroup from './components/RateSliderGroup';
 import ResultsTable from './components/ResultsTable';
-import { Container, Header, Rating } from 'semantic-ui-react';
+import { Container, Header, Segment } from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
@@ -26,7 +26,7 @@ const data = {
 };
 
 var options = {
-    responsive: false,
+    responsive: true,
     maintainAspectRatio: true,
     animation: {
 		easing: 'easeInBack',
@@ -36,7 +36,8 @@ var options = {
         ticks: {
             beginAtZero: true,
 			reverse: true,
-            max: 10
+            max: 10,
+			display: false
         }
     }
 };
@@ -123,13 +124,28 @@ class App extends Component {
 
     return (
       <div className="App">
-		<Header size='huge' textAlign='center'>
-	      Sphere Name
-	    </Header>
+
+		<Segment className="gradientHeader">
+		<Container textAlign='center'>
+	              <Header
+	                as='h1'
+	                content='Sphere Name'
+	           
+	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em' }}
+	              />
+	              <Header
+	                as='h2'
+	                content='Meritocratic Rating Application'
+	                style={{ fontSize: '1.7em', fontWeight: 'normal' }}
+	              />
+	
+	            </Container>
+	</Segment>
+
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
-			<div align="topleft">
-				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
+			<div>
+				<Radar width={500} height={500} options={options} data={data} /> 
 			</div>
 			<RateSliderGroup />
 		</Container>
