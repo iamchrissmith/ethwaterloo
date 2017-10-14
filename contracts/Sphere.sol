@@ -1,7 +1,7 @@
 pragma solidity ^0.4.2;
 
 import './Pausable.sol';
-import './Membership.sol'; 
+import './Membership.sol';
 
 contract Sphere is Membership, Pausable {
     /*----------- Types -----------*/
@@ -31,11 +31,11 @@ contract Sphere is Membership, Pausable {
 
     /*----------- Member Methods -----------*/
 
-    function addRatingToMember(address member, uint256 rating) 
-      public 
-      fromMember 
+    function addRatingToMember(address member, uint256 rating)
+      public
+      fromMember
       isAMember(member)
-      returns(bool success) 
+      returns(bool success)
     {
       require(msg.sender != member);
       // TODO: restrict 1 rating per period.
@@ -48,22 +48,22 @@ contract Sphere is Membership, Pausable {
       return true;
     }
 
-    /*----------- Public Methods -----------*/
+    /*----------- Constants -----------*/
 
-    function getRatingForMember(address member) 
-      public 
-      constant
-      isAMember(member)
-      returns(
-        uint256 count,
-        uint256 total
-      )
-    {
-      return (
-        ratings[member].count,
-        ratings[member].total
-      );
+    function getMemberCount() public constant returns(uint256) {
+        return members.length;
     }
+
+
+    function getMemberBase(address) public constant returns(uint256) {
+        return ratings[address].count;
+    }
+
+    function getMemberTotal(address) public constant returns(uint256) {
+        return ratings[address].total;
+    }
+
+    /*function getRatingForMember(address member) public returns(uint rating);*/
 
     function countRatingsReceived(address member)
       public

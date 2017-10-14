@@ -49,14 +49,15 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
-    "dotenv": "^2.0.0",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
     "chart.js": "*",
+    "dotenv": "^2.0.0",
+    "jspaillier": "^0.1.1",
+    "react": "^15.4.2",
     "react-chartjs-2": "*",
+    "react-dom": "^15.4.2",
     "semantic-ui-css": "^2.2.12",
-    "semantic-ui-react": "^0.74.2",
-	"semantic-ui-range": "^1.0.1"
+    "semantic-ui-range": "^1.0.1",
+    "semantic-ui-react": "^0.74.2"
   },
   "scripts": {
     "start": "node scripts/start.js",

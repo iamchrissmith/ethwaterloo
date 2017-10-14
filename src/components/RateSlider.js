@@ -5,10 +5,7 @@ export default class RateSlider extends Component {
   state = { rating: 0 }
 
 	handleChange = e => this.setState({ rating: e.target.value })
-	
-	updateRating(e, data) {
-		console.log(e, data);
-	}
+	handleRate = (e, { rating, maxRating }) => console.log( rating, maxRating )
 
   render() {
     const { rating } = this.state
@@ -26,7 +23,7 @@ export default class RateSlider extends Component {
 		        <input type='range' min={0} max={10} value={rating} onChange={this.handleChange} />
 				<br />
 				Rating: {rating}
-		        <Rating rating={this.state.rating} maxRating={10} disabled={true} hidden={true} onRate={this.updateRating} />
+		        <Rating rating={this.state.rating} maxRating={10} disabled={true} hidden={true} onRate={this.handleRate} />
 		      </Card.Description>
 		    </Card.Content>
 		  </Card>
