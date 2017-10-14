@@ -82,17 +82,30 @@ class App extends Component {
     // See utils/getWeb3 for more info.
 
     getWeb3
-    .then(results => {
+    .then(async results => {
       this.setState({
         web3: results.web3
       })
 
+      const contract = require('truffle-contract');
+      
+      const sphere = contract(Sphere);
+      sphere.setProvider(this.state.web3.currentProvider);
+
+      const instance = await sphere.deployed();
+      this.setState({contract: instance})
+
       // Instantiate contract once web3 provided.
-      this.getMembers()
+      const members = await this.getMembers()
+      console.log(this.getRating(this.state.members[0]));
+
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
+  }
+  
+  componentDidMount() {
   }
 
   setCurrentUser = (err, accounts) => {
@@ -100,41 +113,27 @@ class App extends Component {
   }
 
   async getRating(address) {
-    if (address) {
-      const contract = require('truffle-contract');
+    if(address){
       console.log(address);
-      const sphere = contract(Sphere);
-      sphere.setProvider(this.state.web3.currentProvider);
-
-      const instance = await sphere.deployed();
-      const base = await instance.getMemberBase.call(address);
-      const total = await instance.getMemberTotal.call(address);
-
+      const base = await this.state.contract.getMemberBase.call(address);
+      const total = await this.state.contract.getMemberTotal.call(address);
+  
       console.log(base);
       console.log(total);
       // return this.setState({ len: l, members })
-      
     }
   }
 
   async getMembers() {
-    const contract = require('truffle-contract');
-
-    const sphere = contract(Sphere);
-    sphere.setProvider(this.state.web3.currentProvider);
-
     this.state.web3.eth.getAccounts(this.setCurrentUser)
 
-    const instance = await sphere.deployed();
-    this.setState({contract: instance})
-    const len = await instance.getMemberCount();
+    const len = await this.state.contract.getMemberCount();
 
     let members = [];
     let l = len.toNumber();
     for (let i = 0; i < l; i += 1) {
-      members.push(await instance.members.call(i))
+      members.push(await this.state.contract.members.call(i))
     }
-
     return this.setState({ len: l, members })
   }
 
@@ -144,7 +143,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.getRating(this.state.members[0]));
     return (
       <div className="App">
 
@@ -170,7 +168,7 @@ class App extends Component {
 			<div>
 				<Radar width={500} height={500} options={options} data={Object.assign(data, {labels: this.state.members.map(s => s.slice(0, 5) )})} />
 			</div>
-      <RateSliderGroup
+      <RateSliderGroup 
         members={this.state.members}
         names={this.state.names}
         currentUser={this.state.currentUser}
