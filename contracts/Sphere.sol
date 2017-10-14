@@ -7,8 +7,8 @@ contract Sphere is Membership, Pausable {
     /*----------- Types -----------*/
 
     struct Rating {
-        uint256 count;
-        uint256 total;
+        string count;
+        string total;
     }
 
     /*----------- Globals -----------*/
@@ -31,7 +31,7 @@ contract Sphere is Membership, Pausable {
 
     /*----------- Member Methods -----------*/
 
-    function addRatingToMember(address member, uint256 count, uint256 total)
+    function addRatingToMember(address member, string count, string total)
       public
       fromMember
       isAMember(member)
@@ -55,11 +55,11 @@ contract Sphere is Membership, Pausable {
     }
 
 
-    function getMemberBase(address member) public constant returns(uint256) {
+    function getMemberBase(address member) public constant returns(string) {
         return ratings[member].count;
     }
 
-    function getMemberTotal(address member) public constant returns(uint256) {
+    function getMemberTotal(address member) public constant returns(string) {
         return ratings[member].total;
     }
 

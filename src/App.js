@@ -7,6 +7,7 @@ import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
 import jsbn from 'jsbn';
+import BigNumber from 'bignumber.js';
 
 const data = {
   labels: ['Max Nachamkin', 'Chris Smith', 'Noah', 'Vitalik'],
@@ -98,8 +99,9 @@ class App extends Component {
 
       // Instantiate contract once web3 provided.
       const currentUser = await this.state.web3.eth.getAccounts(this.setCurrentUser)
-      const members = await this.getMembers()
-      console.log(this.getRating(this.state.members[0]));
+      const members = await this.getMembers();
+      // const ratings = await this.getRating
+      // console.log(this.getRating(this.state.members[0]));
 
     })
     .catch(() => {
@@ -116,7 +118,6 @@ class App extends Component {
 
   async getRating(address) {
     if(address){
-      console.log(address);
       const base = await this.state.contract.getMemberBase.call(address);
       const total = await this.state.contract.getMemberTotal.call(address);
 
@@ -136,15 +137,31 @@ class App extends Component {
   }
 
   submitRating = async (address, score) => {
-    const [base, total] = await this.getRating(address);
-    let res;
-    if (base.toString() === "0") {
-      res = this.state.contract.addRatingToMember(address, score, {from:this.state.currentUser, gas: 300000 })
+    let [base, total] = await this.getRating(address);
+    const one = this.state.publicKey.encrypt(new jsbn.BigInteger('1'));
+    const zero = this.state.publicKey.encrypt(new jsbn.BigInteger('0'));
+    const encScore = this.state.publicKey.encrypt(new jsbn.BigInteger(score.toString()));
+    // console.log(address, score, base, total, encScore);
+    console.log(address);
+    console.log(score);
+    console.log(base.toString());
+    console.log(total.toString());
+    console.log(encScore.toString());
+    if (base === "0" || base === "") {
+      base = zero;
+      total = zero;
     } else {
-      
+      base = new jsbn.BigInteger(base);
+      total = new jsbn.BigInteger(total);
     }
-     console.log(address, score, base, total);
-    return res;
+    const newBase = this.state.publicKey.add(base, one);
+    const newTotal = this.state.publicKey.add(total, encScore)
+    return this.state.contract.addRatingToMember(
+      address,
+      newBase.toString(),
+      newTotal.toString(),
+      {from:this.state.currentUser, gas: 300000 }
+    );;
   }
 
   render() {
