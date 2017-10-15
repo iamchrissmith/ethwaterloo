@@ -76,3 +76,11 @@ __NOTE: This app is for demo purposes only, is *insecure* and should *not* be ru
 12. You can view the health of your team by how closely packed the radar chart is. For example if everyone got high scores for the period from their peers, they grouping will be clustered around the center. If you have one team member, who got lower scores, they will be further out. (i.e. center = 10, edge = 0)
 
 __NOTE: This app is for demo purposes only, is *insecure* and should *not* be run in production__
+
+## Screenshots
+
+![UI](/screenshot/ui.png?raw=true "UI")
+![Submission Overview](/screenshot/submission-overview.png?raw=true "Submission Overview")
+![MetaMask Approval](/screenshot/metamask-approval.png?raw=true "MetaMask Approval")
+![Encryptions](/screenshot/encryption.png?raw=true "Encryption")
+![Results](/screenshot/results.png?raw=true "Results")
