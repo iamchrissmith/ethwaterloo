@@ -18,28 +18,31 @@ contract('Sphere', function(accounts) {
   })
 
   it('returns 0 initially for a member rating', () => {
-    return contract.getRatingForMember(member, {from: owner})
+    return contract.getMemberTotal(member, {from: owner})
       .then( rating => {
-        assert.equal(rating[0].toNumber(), 0, 'initial member rating count is not 0')
-        assert.equal(rating[1].toNumber(), 0, "initial rating total is not 0")
+        assert.equal(rating, "0", 'initial member rating count is not 0')
       })
   })
 
   it('returns 0 initially for a member rating count', () => {
-    return contract.countRatingsReceived(member, {from: owner})
+    return contract.getMemberBase(member, {from: owner})
       .then(count => {
-        assert.equal(count.toNumber(), 0, 'member rating count did not increase')
+        assert.equal(count, "0", 'member rating count not initially 0')
       })
   });
 
   it('a member can send a rating', () => {
-    return contract.addRatingToMember(member, 10, {from:owner})
+    return contract.addRatingToMember(member, "1", "10", {from:owner})
       .then( tx => {
-        return contract.getRatingForMember(member, {from: owner})
+        return contract.getMemberTotal(member, {from: owner})
       })
       .then( rating => {
-        assert.equal(rating[0].toNumber(), 1, 'member rating count is not 1')
-        assert.equal(rating[1].toNumber(), 10, "rating total is not 10")
+        console.log(rating)
+        assert.equal(rating, "10", "rating total is not 10")
+        return contract.getMemberBase(member, {from: owner})
+      })
+      .then( base => {
+        assert.equal(base, "1", "rating total is not 10")
         return contract.countRatingsReceived(member, {from:owner})
       })
       .then( count => {
@@ -55,19 +58,19 @@ contract('Sphere', function(accounts) {
 
   it('throws errors if member tries to rate self', () => {
     return expectedExceptionPromise( () => {
-      return contract.addRatingToMember(owner, 10, {from:owner})
+      return contract.addRatingToMember(owner, "1", "10", {from:owner})
     }, 3000000);
   })
   
   it('throws errors if nonMember tries to rate', () => {
     return expectedExceptionPromise(
-      () => contract.addRatingToMember(member, 10, {from:nonMember, gas: 3000000 }),
+      () => contract.addRatingToMember(member, "1", "10", {from:nonMember, gas: 3000000 }),
       3000000);
   })
 
   it('throws errors if member tries to rate nonMember', () => {
     return expectedExceptionPromise( 
-      () => contract.addRatingToMember(nonMember, 10, {from:owner, gas: 3000000 }),
+      () => contract.addRatingToMember(nonMember, "1", "10", {from:owner, gas: 3000000 }),
       3000000);
   })
 });

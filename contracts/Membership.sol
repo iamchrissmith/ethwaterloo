@@ -1,8 +1,8 @@
 pragma solidity ^0.4.2;
 
-import './Owned.sol';
+import './Pausable.sol';
 
-contract Membership is Owned {
+contract Membership is Pausable {
 
   /*----------- Globals -----------*/
 
@@ -39,10 +39,12 @@ contract Membership is Owned {
 
   function addMember(address newMember) 
     public 
-    fromOwner 
+    fromOwner
+    whenNotPaused
     returns(bool success)
   {
     require(!memberExists[newMember]);
+    require(newMember != address(0));
     memberExists[newMember] = true;
     uint index = members.push(newMember) - 1;
     LogNewMember(msg.sender, newMember, index);
