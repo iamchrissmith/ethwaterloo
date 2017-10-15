@@ -71,8 +71,6 @@ class App extends Component {
       currentUser: ''
     }
 
-    console.log(this.state.chartData);
-    console.log(this.updated);
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
     // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
@@ -133,8 +131,12 @@ class App extends Component {
       console.log(base, total);
 
       ratings.push(total/base);
+
     }
     console.log(ratings);
+    console.log('Set State to the ratings');
+    data.datasets[0].data = ratings;
+    console.log(data.datasets[0].data);
     return this.setState({ ratings: ratings });
   }
 
