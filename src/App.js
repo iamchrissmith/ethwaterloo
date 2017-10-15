@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
 import RateSliderGroup from './components/RateSliderGroup';
 import ResultsTable from './components/ResultsTable';
-import { Container, Header, Segment } from 'semantic-ui-react';
+import { Container, Header, Segment, Button } from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
@@ -59,7 +59,7 @@ class App extends Component {
     this.state = {
       len: 0,
       publicKey: keys.pub,
-      privateKey: keys.sec.lambda,
+      privateKey: keys.sec,
       web3: null,
       contract: {},
       names: ["Vitalk", "Noah", "Max", "Chris"],
@@ -116,6 +116,21 @@ class App extends Component {
     return this.setState({currentUser: accounts[0]});
   }
 
+  updateScores = async () => {
+    const len = this.state.len;
+    let ratings = [];
+    for (let i = 0; i < len; i += 1) {
+      let [base, total] = await this.getRating(this.state.members[i]);
+      base = this.state.privateKey.decrypt(new jsbn.BigInteger(base)).toString(10);
+      total = this.state.privateKey.decrypt(new jsbn.BigInteger(total)).toString(10);
+      console.log(base, total);
+
+      ratings.push(total/base);
+    }
+    console.log(ratings);
+    return this.setState({ ratings: ratings });
+  }
+
   async getRating(address) {
     if(address){
       const base = await this.state.contract.getMemberBase.call(address);
@@ -160,7 +175,7 @@ class App extends Component {
       address,
       newBase.toString(),
       newTotal.toString(),
-      {from:this.state.currentUser, gas: 500000 }
+      {from:this.state.currentUser, gas: 3000000 }
     );;
   }
 
@@ -187,7 +202,8 @@ class App extends Component {
 
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
-			<div>
+    <Button color="orange" onClick={this.updateScores}>Update Ratings</Button>
+      <div>
 				<Radar width={500} height={500} options={options} data={
           Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
         } />
