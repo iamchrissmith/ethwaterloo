@@ -79,3 +79,11 @@ code {
   height: 16px;
   margin-right: 10px;
 }
+
+.chart-cont {
+  max-width: 500px;
+  max-height: 500px;
+  width:80%;
+  height: 80%;
+  margin: 0 auto;
+}
