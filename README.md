@@ -51,7 +51,7 @@ Additional functionality must also be implemented:
 
 ## Instructions
 
-*** NOTE: This app is for demo purposes only, is *insecure* and should *not* be run in production ***
+__NOTE: This app is for demo purposes only, is *insecure* and should *not* be run in production__
 
 1. Get the Files: `git clone https://github.com/iamchrissmith/ethwaterloo.git`
 2. `cd ethwaterloo`
@@ -59,18 +59,20 @@ Additional functionality must also be implemented:
 4. TestRPC needs to have specific accounts to get the PoC App Running, so run TestRPC on `http://localhost:8545` with `testrpc --account='0xdad5277a2260babc685fab496e64d57aa3a832989df0db769d2d8d94c57ba032, 7000000000000000000000000' --account='0xa73e59aaf174f8b0f707583100024ad6c16467c813d074bf8742284da93d759b, 7000000000000000000000000' --account='0x1a2ffc6fc90b1042882cedea1a6b2023db9a760f18b65fd5434ccf8a332d1d22, 7000000000000000000000000' --account='0x288774987767b57de0085f3dd14bd0ca102b43c1e97846572d67584d32e8d2b5, 7000000000000000000000000' --account='0x37e2165ced5c243195749b15da97139026ff6b6e276fee98e4d204548ee93163, 7000000000000000000000000'`
 5. While TestRPC is running in a separate terminal window run `truffle migrate --reset` to deploy your contracts to the test network.
 6. Import the account you want to use into MetaMask:
- a. For the first account go to MetaMask in your browser.  Make sure you are connected to your private network (localhost:8545).
- b. Select accounts at the top right, scroll to the bottom to `Import Accounts`
- c. Paste the private key for the account without the `0x`, for example if you wanted the first one paste: `dad5277a2260babc685fab496e64d57aa3a832989df0db769d2d8d94c57ba032`
+  * For the first account go to MetaMask in your browser.  Make sure you are connected to your private network (localhost:8545).
+  * Select accounts at the top right, scroll to the bottom to `Import Accounts`
+  * Paste the private key for the first account without the `0x`: `dad5277a2260babc685fab496e64d57aa3a832989df0db769d2d8d94c57ba032`
 7. Once that is complete run `npm start` / `yarn start` to start the frontend.  That should open `http://localhost:3000` in your browser.
 
-*** NOTE: This app is for demo purposes only.  We are loading the private keys for our encryption into the browser.  This means: ***
+    __NOTE: This app is for demo purposes only.  We are loading the private keys for our encryption into the browser.  This means:__
 
-1. It is insecure and should not be run in production
-2. If you reload your browser, the pub/private keys will be regenerated and you will have to repeat steps 4, 5 and 7 above.  
+    1. It is insecure and should not be run in production
+    2. If you reload your browser, the pub/private keys will be regenerated and you will have to repeat steps 4, 5 and 7 above.  
 
 8. Once the browser is running, you can vote for the team members other than yourself up to 2 times (simulating the biweekly rating cycle).
 9. When you submit a rating, MetaMask should ask you to approve the transaction.  Your browser console will output the score you submitted and its encrypted equivallent.
 10. After you have submitted the scores, you can click `Update Ratings` at the bottom of the page.
 11. This will retreive the encrypted scores from the blockchain, decrypt them and add them to the radar chart.
 12. You can view the health of your team by how closely packed the radar chart is. For example if everyone got high scores for the period from their peers, they grouping will be clustered around the center. If you have one team member, who got lower scores, they will be further out. (i.e. center = 10, edge = 0)
+
+__NOTE: This app is for demo purposes only, is *insecure* and should *not* be run in production__
