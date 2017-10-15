@@ -1,4 +1,4 @@
-# EthWaterloo - Meritocratic Rating Application
+# EthWaterloo Demo - Light Leadership Meritocratic Ratings
 
 ## Inspiration
 
