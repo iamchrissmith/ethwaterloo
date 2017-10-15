@@ -10,7 +10,7 @@ import jsbn from 'jsbn';
 import BigNumber from 'bignumber.js';
 
 const data = {
-  labels: ['Max Nachamkin', 'Chris Smith', 'Noah', 'Vitalik'],
+  labels: ['Max Nachamkin', 'Chris Smith', 'Noah Marconi', 'Joe Schmoe'],
   datasets: [
     {
       label: 'October 2017 Ratings',
