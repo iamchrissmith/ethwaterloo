@@ -37,7 +37,6 @@ contract('Sphere', function(accounts) {
         return contract.getMemberTotal(member, {from: owner})
       })
       .then( rating => {
-        console.log(rating)
         assert.equal(rating, "10", "rating total is not 10")
         return contract.getMemberBase(member, {from: owner})
       })
