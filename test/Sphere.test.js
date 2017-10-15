@@ -20,14 +20,14 @@ contract('Sphere', function(accounts) {
   it('returns 0 initially for a member rating', () => {
     return contract.getMemberTotal(member, {from: owner})
       .then( rating => {
-        assert.equal(rating, "0", 'initial member rating count is not 0')
+        assert.equal(rating, "", 'initial member rating count is not ""')
       })
   })
 
   it('returns 0 initially for a member rating count', () => {
     return contract.getMemberBase(member, {from: owner})
       .then(count => {
-        assert.equal(count, "0", 'member rating count not initially 0')
+        assert.equal(count, "", 'member rating count not initially ""')
       })
   });
 
