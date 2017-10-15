@@ -7,6 +7,7 @@ import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
 import jsbn from 'jsbn';
+import BigNumber from 'bignumber.js';
 
 const data = {
   labels: ['Max Nachamkin', 'Chris Smith', 'Noah', 'Vitalik'],
@@ -20,7 +21,7 @@ const data = {
       pointHoverBackgroundColor: '#fff',
       pointHoverBorderColor: 'rgba(179,181,198,1)',
       lineTension: .5,
-      data: [8, 6, 6, 9]
+      data: [0, 0, 0, 0]
     }
   ]
 };
@@ -66,8 +67,8 @@ class App extends Component {
       contract: {},
       names: ["Vitalk", "Noah", "Max", "Chris"],
       members: [],
-      currentUser: '',
-      chartData: data
+      ratings: [0, 0, 0, 0],
+      currentUser: ''
     }
 
     console.log(this.state.chartData);
@@ -105,8 +106,9 @@ class App extends Component {
 
       // Instantiate contract once web3 provided.
       const currentUser = await this.state.web3.eth.getAccounts(this.setCurrentUser)
-      const members = await this.getMembers()
-      console.log(this.getRating(this.state.members[0]));
+      const members = await this.getMembers();
+      // const ratings = await this.getRating
+      // console.log(this.getRating(this.state.members[0]));
 
     })
     .catch(() => {
@@ -123,13 +125,10 @@ class App extends Component {
 
   async getRating(address) {
     if(address){
-      console.log(address);
       const base = await this.state.contract.getMemberBase.call(address);
       const total = await this.state.contract.getMemberTotal.call(address);
 
-      console.log(base);
-      console.log(total);
-      // return this.setState({ len: l, members })
+      return [base, total];
     }
   }
 
@@ -145,8 +144,31 @@ class App extends Component {
   }
 
   submitRating = async (address, score) => {
-    console.log(address, score)
-    return this.state.contract.addRatingToMember(address,score, {from:this.state.currentUser, gas: 3000000 })
+    let [base, total] = await this.getRating(address);
+    const one = this.state.publicKey.encrypt(new jsbn.BigInteger('1'));
+    const zero = this.state.publicKey.encrypt(new jsbn.BigInteger('0'));
+    const encScore = this.state.publicKey.encrypt(new jsbn.BigInteger(score.toString()));
+    // console.log(address, score, base, total, encScore);
+    console.log(address);
+    console.log(score);
+    console.log(base.toString());
+    console.log(total.toString());
+    console.log(encScore.toString());
+    if (base === "0" || base === "") {
+      base = zero;
+      total = zero;
+    } else {
+      base = new jsbn.BigInteger(base);
+      total = new jsbn.BigInteger(total);
+    }
+    const newBase = this.state.publicKey.add(base, one);
+    const newTotal = this.state.publicKey.add(total, encScore)
+    return this.state.contract.addRatingToMember(
+      address,
+      newBase.toString(),
+      newTotal.toString(),
+      {from:this.state.currentUser, gas: 500000 }
+    );;
   }
 
   renderChart() {
@@ -177,12 +199,10 @@ class App extends Component {
 
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
 			<div>
-				<Radar width={500} height={500} options={options} data={this.renderChart()} />
+				<Radar width={500} height={500} options={options} data={
+          Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
+        } />
 			</div>
-      <Header
-        as="h2"
-        content={`Welcome, ${this.state.currentUser}`}
-      />
       <RateSliderGroup
         members={this.state.members}
         names={this.state.names}
