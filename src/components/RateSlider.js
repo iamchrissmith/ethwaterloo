@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import { Button, Rating, Card } from 'semantic-ui-react'
 
 export default class RateSlider extends Component {
-  state = { rating: 0, submitted: false }
+  state = { rating: 0, submitted: 0 }
 
 	handleChange = e => this.setState({ rating: e.target.value })
 	handleSubmit = async e => {
 		const tx = await this.props.submitRating(this.props.address, this.state.rating)
-		this.setState({submitted: true})
+		this.setState({submitted: this.state.submitted + 1})
 	}
 
 	isDisabled = () => {
-		return this.props.address == this.props.currentUser || this.state.submitted
+		return this.props.address == this.props.currentUser || this.state.submitted >= 2
 	}
 
   render() {

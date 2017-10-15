@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import RateSlider from './RateSlider'
-import { Button, Container } from 'semantic-ui-react'
+import { Card, Button, Container } from 'semantic-ui-react'
 // import RatingSubmitConfirm from './RatingSubmitConfirm'
 
 export default class RateSliderGroup extends Component {
@@ -10,6 +10,7 @@ export default class RateSliderGroup extends Component {
     return (
       <div>
 				<Container text textAlign='center'>
+				<Card.Group>
 
 					{this.props.members.map(
 						(member, i) =>
@@ -20,6 +21,7 @@ export default class RateSliderGroup extends Component {
 								currentUser={this.props.currentUser}
 							/>
 					)}
+					</Card.Group>
 					</Container>
 					</div>
 				)

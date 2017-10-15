@@ -196,21 +196,21 @@ class App extends Component {
 	                as='h1'
 	                content='Sphere Name'
 
-	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em' }}
+	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em', color:'white' }}
 	              />
 	              <Header
 	                as='h2'
 	                content='Meritocratic Rating Application'
-	                style={{ fontSize: '1.7em', fontWeight: 'normal' }}
+	                style={{ fontSize: '1.7em', fontWeight: 'normal', color: '#9281ec' }}
 	              />
 
 	            </Container>
 	</Segment>
 
 
-		<Container textAlign='center' style={{ marginTop: '7em' }}>
+		<Container textAlign='center'>
     <Button color="orange" onClick={this.updateScores}>Update Ratings</Button>
-      <div>
+      <div className="chart-cont">
 				<Radar redraw={true} width={500} height={500} options={options} data={
           Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
         } />

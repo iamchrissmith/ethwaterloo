@@ -30,6 +30,7 @@ contract Owned {
     returns(bool success)
   {
     require(newOwner != owner);
+    require(newOwner != address(0));
     owner = newOwner;
     return true;
   }

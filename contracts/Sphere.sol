@@ -1,9 +1,8 @@
 pragma solidity ^0.4.2;
 
-import './Pausable.sol';
 import './Membership.sol';
 
-contract Sphere is Membership, Pausable {
+contract Sphere is Membership {
     /*----------- Types -----------*/
 
     struct Rating {
@@ -33,6 +32,7 @@ contract Sphere is Membership, Pausable {
 
     function addRatingToMember(address member, string count, string total)
       public
+      whenNotPaused
       fromMember
       isAMember(member)
       returns(bool success)
