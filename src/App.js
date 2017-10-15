@@ -125,9 +125,16 @@ class App extends Component {
       total = this.state.privateKey.decrypt(new jsbn.BigInteger(total)).toString(10);
       console.log(base, total);
 
-      ratings.push(total/base);
+      if (i === 0) {
+        ratings.push(10);
+      } else {
+        ratings.push(total/base);
+      }
+
     }
     console.log(ratings);
+
+    data.datasets[0].data = ratings;     // TODA: anything but this.
     return this.setState({ ratings: ratings });
   }
 
@@ -204,7 +211,7 @@ class App extends Component {
 		<Container textAlign='center' style={{ marginTop: '7em' }}>
     <Button color="orange" onClick={this.updateScores}>Update Ratings</Button>
       <div>
-				<Radar width={500} height={500} options={options} data={
+				<Radar redraw={true} width={500} height={500} options={options} data={
           Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
         } />
 			</div>
