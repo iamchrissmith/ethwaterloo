@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import getWeb3 from './utils/getWeb3';
 import RateSliderGroup from './components/RateSliderGroup';
-import ResultsTable from './components/ResultsTable';
 import { Container, Header, Segment, Button } from 'semantic-ui-react';
 import Sphere from '../build/contracts/Sphere.json';
 import { Radar } from 'react-chartjs-2';
 import paillier from 'jspaillier';
 import jsbn from 'jsbn';
-import BigNumber from 'bignumber.js';
 
 const data = {
   labels: ['Max Nachamkin', 'Chris Smith', 'Noah Marconi', 'Joe Schmoe'],
@@ -53,8 +51,6 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    // this.setCurrentUser = this.setCurrentUser.bind(this)
-
     const keys = paillier.generateKeys(1024);
     this.state = {
       len: 0,
@@ -62,22 +58,13 @@ class App extends Component {
       privateKey: keys.sec,
       web3: null,
       contract: {},
-      names: ["Vitalk", "Noah", "Max", "Chris"],
+      names: ["Sarah", "Noah", "Max", "Chris"],
       members: [],
       ratings: [0, 0, 0, 0],
       currentUser: ''
     }
 
-    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
-    // console.log(keys.pub.encrypt(new jsbn.BigInteger('10')).toString());
-    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
-    // console.log(keys.pub.encrypt(new jsbn.BigInteger('1')).toString());
-    // console.log(keys.pub.n2.toString());
-
   }
-
-  // get ratings for each member
-  // submitRating async function
 
   componentWillMount() {
     // Get network provider and web3 instance.
@@ -98,18 +85,12 @@ class App extends Component {
       this.setState({contract: instance})
 
       // Instantiate contract once web3 provided.
-      const currentUser = await this.state.web3.eth.getAccounts(this.setCurrentUser)
-      const members = await this.getMembers();
-      // const ratings = await this.getRating
-      // console.log(this.getRating(this.state.members[0]));
-
+      await this.state.web3.eth.getAccounts(this.setCurrentUser)
+      await this.getMembers();
     })
     .catch(() => {
       console.log('Error finding web3.')
     })
-  }
-
-  componentDidMount() {
   }
 
   setCurrentUser = (err, accounts) => {
@@ -123,7 +104,6 @@ class App extends Component {
       let [base, total] = await this.getRating(this.state.members[i]);
       base = this.state.privateKey.decrypt(new jsbn.BigInteger(base)).toString(10);
       total = this.state.privateKey.decrypt(new jsbn.BigInteger(total)).toString(10);
-      console.log(base, total);
 
       if (i === 0) {
         ratings.push(10);
@@ -132,10 +112,9 @@ class App extends Component {
       }
 
     }
-    console.log(ratings);
-
-    data.datasets[0].data = ratings;     // TODA: anything but this.
-    return this.setState({ ratings: ratings });
+    
+    data.datasets[0].data = ratings;     // TODO: anything but this: required to fix a bug in ChartsJS - React wrapper
+    return this.setState({ ratings: ratings })
   }
 
   async getRating(address) {
@@ -163,12 +142,9 @@ class App extends Component {
     const one = this.state.publicKey.encrypt(new jsbn.BigInteger('1'));
     const zero = this.state.publicKey.encrypt(new jsbn.BigInteger('0'));
     const encScore = this.state.publicKey.encrypt(new jsbn.BigInteger(score.toString()));
-    // console.log(address, score, base, total, encScore);
-    console.log(address);
-    console.log(score);
-    console.log(base.toString());
-    console.log(total.toString());
-    console.log(encScore.toString());
+
+    console.log("Score:", score);
+    console.log("Encrypted Score:", encScore.toString());
     if (base === "0" || base === "") {
       base = zero;
       total = zero;
@@ -183,48 +159,41 @@ class App extends Component {
       newBase.toString(),
       newTotal.toString(),
       {from:this.state.currentUser, gas: 3000000 }
-    );;
+    );
   }
 
   render() {
     return (
       <div className="App">
+        <Segment className="gradientHeader">
+          <Container textAlign='center'>
+            <Header
+              as='h1'
+              content='Sphere Name'
 
-		<Segment className="gradientHeader">
-		<Container textAlign='center'>
-	              <Header
-	                as='h1'
-	                content='Sphere Name'
-
-	                style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em', color:'white' }}
-	              />
-	              <Header
-	                as='h2'
-	                content='Meritocratic Rating Application'
-	                style={{ fontSize: '1.7em', fontWeight: 'normal', color: '#9281ec' }}
-	              />
-
-	            </Container>
-	</Segment>
-
-
-		<Container textAlign='center'>
-    <Button color="orange" onClick={this.updateScores}>Update Ratings</Button>
-      <div className="chart-cont">
-				<Radar redraw={true} width={500} height={500} options={options} data={
-          Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
-        } />
-			</div>
-      <RateSliderGroup
-        members={this.state.members}
-        names={this.state.names}
-        currentUser={this.state.currentUser}
-        submitRating={this.submitRating}
-      />
-		</Container>
-
-		<ResultsTable />
-
+              style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em', color:'white' }}
+            />
+            <Header
+              as='h2'
+              content='Meritocratic Rating Application'
+              style={{ fontSize: '1.7em', fontWeight: 'normal', color: '#9281ec' }}
+            />
+          </Container>
+        </Segment>
+        <Container textAlign='center'>
+          <div className="chart-cont">
+            <Radar redraw={true} width={500} height={500} options={options} data={
+              Object.assign(data, { data: this.state.ratings, labels: this.state.members.map(s => s.slice(0, 5) ) })
+            } />
+          </div>
+          <RateSliderGroup
+            members={this.state.members}
+            names={this.state.names}
+            currentUser={this.state.currentUser}
+            submitRating={this.submitRating}
+          />
+          <Button color="orange" onClick={this.updateScores}>Update Ratings</Button>
+        </Container>
       </div>
     );
   }

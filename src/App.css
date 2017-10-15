@@ -87,3 +87,15 @@ code {
   height: 80%;
   margin: 0 auto;
 }
+
+.hideCard {
+  display:none;
+}
+
+.altCard {
+  display:none;
+}
+
+.hideCard+.altCard {
+  display:block;
+}
