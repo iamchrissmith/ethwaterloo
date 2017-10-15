@@ -169,7 +169,7 @@ class App extends Component {
           <Container textAlign='center'>
             <Header
               as='h1'
-              content='Sphere Name'
+              content='EthWaterloo Sphere'
 
               style={{ fontSize: '4em', fontWeight: 'normal', marginBottom: 0, marginTop: '3em', color:'white' }}
             />
