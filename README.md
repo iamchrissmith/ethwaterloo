@@ -79,8 +79,8 @@ __NOTE: This app is for demo purposes only, is *insecure* and should *not* be ru
 
 ## Screenshots
 
-![UI](/screenshot/ui.png?raw=true "UI")
-![Submission Overview](/screenshot/submission-overview.png?raw=true "Submission Overview")
-![MetaMask Approval](/screenshot/metamask-approval.png?raw=true "MetaMask Approval")
-![Encryptions](/screenshot/encryption.png?raw=true "Encryption")
-![Results](/screenshot/results.png?raw=true "Results")
+![UI](/screenshots/ui.png?raw=true "UI")  
+![Submission Overview](/screenshots/submission-overview.png?raw=true "Submission Overview")  
+![MetaMask Approval](/screenshots/metamask-approval.png?raw=true "MetaMask Approval")  
+![Encryptions](/screenshots/encryption.png?raw=true "Encryption")  
+![Results](/screenshots/results.png?raw=true "Results")  
